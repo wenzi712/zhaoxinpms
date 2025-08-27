@@ -1,6 +1,9 @@
 'use strict'
 const path = require('path')
- 
+ // 引入eslint-webpack-plugin
+const ESLintPlugin = require('eslint-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -13,6 +16,7 @@ const port = process.env.port || process.env.npm_config_port || 80 // 端口
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
 // 这里只列一部分，具体配置参考文档
 module.exports = {
+  transpileDependencies: [],
   // 部署生产环境和开发环境下的URL。
   // 默认情况下，Vue CLI 会假设你的应用是被部署在一个域名的根路径上
   // 例如 https://www.ruoyi.vip/。如果应用被部署在一个子路径上，你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在 https://www.ruoyi.vip/admin/，则设置 baseUrl 为 /admin/。
@@ -44,19 +48,31 @@ module.exports = {
         changeOrigin: true,
       }
     },
-    disableHostCheck: true
+    // 替换 disableHostCheck: true
+    allowedHosts: 'all'
   },
   configureWebpack: {
     name: name,
     resolve: {
       alias: {
         '@': resolve('src')
+      },
+      fallback: {
+        "path": require.resolve("path-browserify"),
+        "util": require.resolve("util/")
       }
-    }
+    },
+    plugins: [
+      new ESLintPlugin({
+        extensions: ['js', 'vue'],
+        exclude: 'node_modules'
+      })
+    ]
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
+    config.module.rules.delete('eslint');
 
     // set svg-sprite-loader
     config.module
@@ -110,11 +126,15 @@ module.exports = {
                 }
               }
             })
-          config.optimization.runtimeChunk('single'),
-          {
-             from: path.resolve(__dirname, './public/robots.txt'), //防爬虫文件
-             to: './' //到根目录下
-          }
+          config.optimization.runtimeChunk('single')
+          // 复制robots.txt到输出目录
+          config.plugin('copy').tap(args => {
+            args[0].push({
+              from: path.resolve(__dirname, './public/robots.txt'), //防爬虫文件
+              to: './' //到根目录下
+            })
+            return args
+          })
         }
       )
   }
