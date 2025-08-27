@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 dist/
-npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 **/*.log
@@ -21,3 +21,6 @@ selenium-debug.log
 
 package-lock.json
 yarn.lock
+
+# 保留 pnpm 锁文件
+# pnpm-lock.yaml
