@@ -153,7 +153,7 @@ export default {
         canShow: function () {
             return function (state) {
                 const currentState = this.dataForm.state;
-                if (state == 'apply') {
+                if (state === 'apply') {
                     return true;
                 } else if (state === 'complete') {
                     if (['apply', 'complete', 'unconfirmed', 'processing', 'score'].indexOf(currentState) >= 0) {
@@ -195,7 +195,7 @@ export default {
     methods: {
         initData() {
             getComplaintsByInstanceId(this.conf.instanceId).then(response => {
-                if (response.data.state == 'unconfirmed' && this.conf.isAudit) {
+                if (response.data.state === 'unconfirmed' && this.conf.isAudit) {
                     response.data.repairState = 'processing';
                 }
                 this.dataForm = response.data;

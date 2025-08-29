@@ -142,7 +142,7 @@ export default {
     methods: {
         initData() {},
         search() {
-            if (this.query.resourceName != undefined && this.query.resourceName != '') {
+            if (this.query.resourceName !== undefined && this.query.resourceName !== '') {
                 request({
                     url: `/payment/PaymentContract/resourceName/` + this.query.resourceName,
                     method: 'get',

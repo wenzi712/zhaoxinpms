@@ -176,12 +176,12 @@ export default {
             });
         },
         calcResult() {
-            if (this.dataForm.lastIndex != '' && this.dataForm.currentIndex != '') {
+            if (this.dataForm.lastIndex !== '' && this.dataForm.currentIndex !== '') {
                 var num = (parseFloat(this.dataForm.currentIndex) - parseFloat(this.dataForm.lastIndex)).toFixed(2);
-                if (this.dataForm.multiple != '') {
+                if (this.dataForm.multiple !== '') {
                     num = (parseFloat(num) * parseFloat(this.dataForm.multiple)).toFixed(2);
                 }
-                if (this.dataForm.loss != '') {
+                if (this.dataForm.loss !== '') {
                     num = (parseFloat(num) + parseFloat(this.dataForm.loss)).toFixed(2);
                 }
                 this.dataForm.result = num;

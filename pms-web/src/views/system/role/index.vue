@@ -372,7 +372,7 @@ export default {
         },
         // 表单重置
         reset() {
-            if (this.$refs.menu != undefined) {
+            if (this.$refs.menu !== undefined) {
                 this.$refs.menu.setCheckedKeys([]);
             }
             (this.menuExpand = false),
@@ -407,7 +407,7 @@ export default {
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map(item => item.roleId);
-            this.single = selection.length != 1;
+            this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
         // 更多操作触发
@@ -425,12 +425,12 @@ export default {
         },
         // 树权限（展开/折叠）
         handleCheckedTreeExpand(value, type) {
-            if (type == 'menu') {
+            if (type === 'menu') {
                 let treeList = this.menuOptions;
                 for (let i = 0; i < treeList.length; i++) {
                     this.$refs.menu.store.nodesMap[treeList[i].id].expanded = value;
                 }
-            } else if (type == 'dept') {
+            } else if (type === 'dept') {
                 let treeList = this.deptOptions;
                 for (let i = 0; i < treeList.length; i++) {
                     this.$refs.dept.store.nodesMap[treeList[i].id].expanded = value;
@@ -439,17 +439,17 @@ export default {
         },
         // 树权限（全选/全不选）
         handleCheckedTreeNodeAll(value, type) {
-            if (type == 'menu') {
+            if (type === 'menu') {
                 this.$refs.menu.setCheckedNodes(value ? this.menuOptions : []);
-            } else if (type == 'dept') {
+            } else if (type === 'dept') {
                 this.$refs.dept.setCheckedNodes(value ? this.deptOptions : []);
             }
         },
         // 树权限（父子联动）
         handleCheckedTreeConnect(value, type) {
-            if (type == 'menu') {
+            if (type === 'menu') {
                 this.form.menuCheckStrictly = !!value;
-            } else if (type == 'dept') {
+            } else if (type === 'dept') {
                 this.form.deptCheckStrictly = !!value;
             }
         },
@@ -511,7 +511,7 @@ export default {
         submitForm: function () {
             this.$refs['form'].validate(valid => {
                 if (valid) {
-                    if (this.form.roleId != undefined) {
+                    if (this.form.roleId !== undefined) {
                         this.form.menuIds = this.getMenuAllCheckedKeys();
                         updateRole(this.form).then(response => {
                             this.$modal.msgSuccess('修改成功');
@@ -531,7 +531,7 @@ export default {
         },
         /** 提交按钮（数据权限） */
         submitDataScope: function () {
-            if (this.form.roleId != undefined) {
+            if (this.form.roleId !== undefined) {
                 this.form.deptIds = this.getDeptAllCheckedKeys();
                 dataScope(this.form).then(response => {
                     this.$modal.msgSuccess('修改成功');

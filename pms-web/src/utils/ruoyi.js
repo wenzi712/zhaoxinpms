@@ -75,7 +75,7 @@ export function addDateRange(params, dateRange, propName) {
 export function selectDictLabel(datas, value) {
     var actions = [];
     Object.keys(datas).some(key => {
-        if (datas[key].value == '' + value) {
+        if (datas[key].value === '' + value) {
             actions.push(datas[key].label);
             return true;
         }
@@ -90,7 +90,7 @@ export function selectDictLabels(datas, value, separator) {
     var temp = value.split(currentSeparator);
     Object.keys(value.split(currentSeparator)).some(val => {
         Object.keys(datas).some(key => {
-            if (datas[key].value == '' + temp[val]) {
+            if (datas[key].value === '' + temp[val]) {
                 actions.push(datas[key].label + currentSeparator);
             }
         });
@@ -116,7 +116,7 @@ export function sprintf(str) {
 
 // 转换字符串，undefined,null等转化为""
 export function praseStrEmpty(str) {
-    if (!str || str == 'undefined' || str == 'null') {
+    if (!str || str === 'undefined' ||   str === 'null') {
         return '';
     }
     return str;
@@ -126,7 +126,7 @@ export function praseStrEmpty(str) {
 export function mergeRecursive(source, target) {
     for (var p in target) {
         try {
-            if (target[p].constructor == Object) {
+            if (target[p].constructor === Object) {
                 source[p] = mergeRecursive(source[p], target[p]);
             } else {
                 source[p] = target[p];
@@ -195,7 +195,7 @@ export function dynamicText(value, options) {
         if (!options || !Array.isArray(options)) return value.join();
         let textList = [];
         for (let i = 0; i < value.length; i++) {
-            let item = options.filter(o => o.id == value[i])[0];
+            let item = options.filter(o => o.id === value[i])[0];
             if (!item || !item.fullName) {
                 textList.push(value[i]);
             } else {
@@ -205,7 +205,7 @@ export function dynamicText(value, options) {
         return textList.join();
     }
     if (!options || !Array.isArray(options)) return value;
-    let item = options.filter(o => o.id == value)[0];
+    let item = options.filter(o => o.id === value)[0];
     if (!item || !item.fullName) return value;
     return item.fullName;
 }

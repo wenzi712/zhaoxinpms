@@ -396,28 +396,28 @@ export default {
             });
         },
         changeIndex() {
-            if (this.dataForm.lastIndex != '' && this.dataForm.currentIndex != '') {
+            if (this.dataForm.lastIndex !== '' && this.dataForm.currentIndex !== '') {
                 var num = (parseFloat(this.dataForm.currentIndex) - parseFloat(this.dataForm.lastIndex)).toFixed(2);
-                if (this.dataForm.multiple != '') {
+                if (this.dataForm.multiple !== '') {
                     num = (parseFloat(num) * parseFloat(this.dataForm.multiple)).toFixed(2);
                 }
-                if (this.dataForm.loss != '') {
+                if (this.dataForm.loss !== '') {
                     num = (parseFloat(num) + parseFloat(this.dataForm.loss)).toFixed(2);
                 }
                 this.dataForm.num = num;
-                if (this.dataForm.price != '') {
+                if (this.dataForm.price !== '') {
                     this.dataForm.total = (parseFloat(num) * parseFloat(this.dataForm.price)).toFixed(2);
                 }
             }
         },
         changeMoney() {
-            if (this.dataForm.price != '' && this.dataForm.num != '') {
+            if (this.dataForm.price !== '' && this.dataForm.num !== '') {
                 this.dataForm.total = (parseFloat(this.dataForm.num) * parseFloat(this.dataForm.price)).toFixed(2);
             }
         },
         changePrice() {
             for (var i = 0; i < this.feeItemList.length; i++) {
-                if (this.feeItemList[i].id == this.dataForm.feeItemId) {
+                if (this.feeItemList[i].id === this.dataForm.feeItemId) {
                     this.dataForm.price = this.feeItemList[i].price;
                 }
             }

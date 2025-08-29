@@ -198,7 +198,7 @@ export default {
         // 多选框选中数据
         handleSelectionChange(selection) {
             this.ids = selection.map(item => item.noticeId);
-            this.single = selection.length != 1;
+            this.single = selection.length !== 1;
             this.multiple = !selection.length;
         },
         /** 新增按钮操作 */
@@ -221,7 +221,7 @@ export default {
         submitForm: function () {
             this.$refs['form'].validate(valid => {
                 if (valid) {
-                    if (this.form.noticeId != undefined) {
+                    if (this.form.noticeId !== undefined) {
                         updateNotice(this.form).then(response => {
                             this.$modal.msgSuccess('修改成功');
                             this.open = false;

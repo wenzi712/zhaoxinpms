@@ -101,7 +101,7 @@ export default {
     methods: {
         initData() {
             this.listLoading = true;
-            if (this.query.beginDate == undefined) {
+            if (this.query.beginDate === undefined) {
                 const end = new Date();
                 const start = new Date();
                 start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);

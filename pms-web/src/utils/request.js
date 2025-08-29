@@ -20,7 +20,7 @@ service.interceptors.request.use(
         if (getToken() && !isToken) {
             config.headers['Authorization'] = 'Bearer ' + getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
         }
-        if (config.method == 'get' && config.data) {
+        if (config.method === 'get' && config.data) {
             config.params = config.data;
         }
         // get请求映射params参数
@@ -93,7 +93,7 @@ service.interceptors.response.use(
     error => {
         console.log('err' + error);
         let { message } = error;
-        if (message == 'Network Error') {
+        if (message === 'Network Error') {
             message = '后端接口连接异常';
         } else if (message.includes('timeout')) {
             message = '系统接口请求超时';

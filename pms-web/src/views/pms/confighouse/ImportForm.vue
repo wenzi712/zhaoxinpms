@@ -83,11 +83,11 @@ export default {
     },
     methods: {
         prev() {
-            if (this.active == 1) return;
+            if (this.active === 1) return;
             this.active--;
         },
         next() {
-            if (this.active == 1) {
+            if (this.active === 1) {
                 if (!this.fileList.length || !this.fileName) return this.$message({ message: '请先上传文件', type: 'warning' });
                 this.btnLoading = true;
                 request({
@@ -137,11 +137,11 @@ export default {
             this.fileList = fileList.slice(-1);
         },
         handleSuccess(res, file, fileList) {
-            if (res.code == 200) {
+            if (res.code === 200) {
                 this.fileList = fileList.slice(-1);
                 this.fileName = res.data.name;
             } else {
-                this.fileList = fileList.filter(o => o.uid != file.uid);
+                this.fileList = fileList.filter(o => o.uid !== file.uid);
                 this.$message({ message: res.msg, type: 'error', duration: 1000 });
             }
         },

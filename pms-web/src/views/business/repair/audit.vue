@@ -244,7 +244,7 @@ export default {
 
             Promise.all([p1, p2]).then(values => {
                 let res1 = values[0];
-                if (res1.data.state == 'unconfirmed' && this.conf.isAudit) {
+                if (res1.data.state === 'unconfirmed' && this.conf.isAudit) {
                     res1.data.repairState = 'repairing';
                 }
                 this.dataForm = res1.data;

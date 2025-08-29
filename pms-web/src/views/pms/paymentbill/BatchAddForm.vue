@@ -271,7 +271,7 @@ export default {
         },
         changePrice() {
             for (var i = 0; i < this.feeItemList.length; i++) {
-                if (this.feeItemList[i].id == this.dataForm.feeItemId) {
+                if (this.feeItemList[i].id === this.dataForm.feeItemId) {
                     this.dataForm.price = this.feeItemList[i].price;
                 }
             }
@@ -294,7 +294,7 @@ export default {
         },
         // 表单提交
         dataFormSubmit() {
-            if (this.active == 1) {
+            if (this.active === 1) {
                 this.$refs['elForm'].validate(valid => {
                     if (valid) {
                         request({

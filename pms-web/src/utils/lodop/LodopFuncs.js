@@ -40,13 +40,13 @@ function needCLodop() {
 //加载CLodop时用双端口(http是8000/18000,而https是8443/8444)以防其中某端口被占,
 //主JS文件名“CLodopfuncs.js”是固定名称，其内容是动态的，与其链接的打印环境有关:
 function loadCLodop() {
-    if (CLodopJsState == 'loading' || CLodopJsState == 'complete') return;
+    if (CLodopJsState === 'loading' || CLodopJsState === 'complete') return;
     CLodopJsState = 'loading';
     var head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
     var JS1 = document.createElement('script');
     var JS2 = document.createElement('script');
 
-    if (window.location.protocol == 'https:') {
+    if (window.location.protocol === 'https:') {
         JS1.src = 'https://localhost.lodop.net:8443/CLodopfuncs.js';
         JS2.src = 'https://localhost.lodop.net:8444/CLodopfuncs.js';
     } else {

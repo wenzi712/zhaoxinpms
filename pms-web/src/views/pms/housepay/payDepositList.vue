@@ -257,7 +257,7 @@ export default {
         },
         reset() {
             for (let key in this.query) {
-                if (key != 'resourceName') {
+                if (key !== 'resourceName') {
                     this.query[key] = undefined;
                 }
             }
