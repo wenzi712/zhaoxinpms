@@ -38,8 +38,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">

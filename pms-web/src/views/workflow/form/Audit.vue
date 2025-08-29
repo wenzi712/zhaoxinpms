@@ -5,27 +5,27 @@
                 <template>
                     <el-button type="primary" @click="transfer()">转 办</el-button>
                     <el-button type="primary" @click="approval('audit')">提 交</el-button>
-                    <el-button type="danger" @click="jumpTo()" v-if="setting.showReject">驳 回</el-button>
-                    <el-button type="danger" @click="cancel()" v-if="setting.hasCancel">终 止</el-button>
+                    <el-button v-if="setting.showReject" type="danger" @click="jumpTo()">驳 回</el-button>
+                    <el-button v-if="setting.hasCancel" type="danger" @click="cancel()">终 止</el-button>
                 </template>
                 <el-button @click="goBack()">返 回</el-button>
             </div>
-            <el-tabs class="Jel_tabs" v-model="activeTab" style="padding: 0 10px">
+            <el-tabs v-model="activeTab" class="Jel_tabs" style="padding: 0 10px">
                 <el-tab-pane label="工单信息">
-                    <component v-if="formShow" :is="currentView" :conf="setting" @close="goBack" ref="form" @approval="handleApproval" />
+                    <component :is="currentView" v-if="formShow" ref="form" :conf="setting" @close="goBack" @approval="handleApproval" />
                 </el-tab-pane>
                 <el-tab-pane label="流程信息">
-                    <preview v-if="previewShow" :conf="designerImg" ref="processPreview" />
+                    <preview v-if="previewShow" ref="processPreview" :conf="designerImg" />
                 </el-tab-pane>
                 <el-tab-pane label="流转记录">
-                    <recordList :list="historyList" v-if="recordShow" />
+                    <recordList v-if="recordShow" :list="historyList" />
                 </el-tab-pane>
             </el-tabs>
             <!--用户列表对话框-->
             <el-dialog title="选择用户" :visible.sync="showUserTable" width="900px" append-to-body>
                 <!--用户列表表格-->
                 <div>
-                    <el-form :model="queryUserParams" ref="queryUserForm" :inline="true" v-show="showUserSearch" label-width="68px">
+                    <el-form v-show="showUserSearch" ref="queryUserForm" :model="queryUserParams" :inline="true" label-width="68px">
                         <el-form-item label="用户名称" prop="userName">
                             <el-input
                                 v-model="queryUserParams.userName"
@@ -53,7 +53,7 @@
                     </el-form>
 
                     <el-row :gutter="10" class="mb8">
-                        <right-toolbar :showSearch.sync="showUserSearch" @queryTable="getUserList"></right-toolbar>
+                        <right-toolbar :show-search.sync="showUserSearch" @queryTable="getUserList"></right-toolbar>
                     </el-row>
 
                     <el-table v-loading="userLoading" :data="userList" @selection-change="handleUserSelectionChange">
@@ -99,7 +99,7 @@ export default {
         return {
             currentView: '',
             setting: {
-                showReject:true ,
+                showReject: true,
             },
             visible: false,
             treeData: [],
@@ -291,7 +291,7 @@ export default {
             request({
                 url: '/activiti/process/jumpTo',
                 method: 'post',
-                data: {processInstanceId: processInstanceId, taskId: taskId, comment: ' 为什么回退，给个理由,你们可以实现一个弹窗输入' },
+                data: { processInstanceId: processInstanceId, taskId: taskId, comment: ' 为什么回退，给个理由,你们可以实现一个弹窗输入' },
             }).then(response => {
                 this.$emit('close', true);
                 this.showSuccess('操作成功');
@@ -320,7 +320,7 @@ export default {
                     return request({
                         url: '/activiti/process/delegate',
                         method: 'post',
-                        params: { taskId: taskId, instanceId: instanceId , delegateToUser: selectedRow.userName },
+                        params: { taskId: taskId, instanceId: instanceId, delegateToUser: selectedRow.userName },
                     });
                 })
                 .then(() => {

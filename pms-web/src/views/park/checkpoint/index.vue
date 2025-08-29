@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="名称" prop="name">
                             <el-input v-model="queryParams.name" placeholder="请输入名称" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -27,12 +27,12 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['park:checkpoint:add']">
+                            <el-button v-hasPermi="['park:checkpoint:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">
                                 新增
                             </el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="checkpointList" @selection-change="handleSelectionChange">
@@ -47,13 +47,11 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center" width="200" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['park:checkpoint:edit']">
+                            <el-button v-hasPermi="['park:checkpoint:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-download" @click="download(scope.row)">
-                                下载二维码
-                            </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['park:checkpoint:remove']">
+                            <el-button size="mini" type="text" icon="el-icon-download" @click="download(scope.row)">下载二维码</el-button>
+                            <el-button v-hasPermi="['park:checkpoint:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                         </template>

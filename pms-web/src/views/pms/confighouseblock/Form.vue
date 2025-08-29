@@ -10,17 +10,25 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <el-col :span="24">
                     <el-form-item label="商业区编号" prop="code">
-                        <el-input :disabled="dataForm.id" v-model="dataForm.code" placeholder="请输入" clearable :style="{ width: '100%' }" show-word-limit :maxlength="17"></el-input>
+                        <el-input
+                            v-model="dataForm.code"
+                            :disabled="dataForm.id"
+                            placeholder="请输入"
+                            clearable
+                            :style="{ width: '100%' }"
+                            show-word-limit
+                            :maxlength="17"
+                        ></el-input>
                     </el-form-item>
                 </el-col>
 
@@ -32,7 +40,16 @@
 
                 <el-col :span="24">
                     <el-form-item label="商业区地址" prop="address">
-                        <el-input v-model="dataForm.address" type="textarea" :autosize="{ minRows: 4, maxRows: 4 }" placeholder="请输入" clearable show-word-limit :style="{ width: '100%' }" :maxlength="200"></el-input>
+                        <el-input
+                            v-model="dataForm.address"
+                            type="textarea"
+                            :autosize="{ minRows: 4, maxRows: 4 }"
+                            placeholder="请输入"
+                            clearable
+                            show-word-limit
+                            :style="{ width: '100%' }"
+                            :maxlength="200"
+                        ></el-input>
                     </el-form-item>
                 </el-col>
 
@@ -54,7 +71,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -99,8 +116,8 @@ export default {
                         required: true,
                         message: '请输入地址',
                         trigger: 'blur',
-                    }
-                ]
+                    },
+                ],
             },
         };
     },

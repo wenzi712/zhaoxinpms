@@ -24,9 +24,9 @@
                     </el-col>
                 </el-form>
             </el-row>
-            <div class="Jcommon-layout-main Jflex-main" style="overflow-y: scroll" v-if="loaded">
+            <div v-if="loaded" class="Jcommon-layout-main Jflex-main" style="overflow-y: scroll">
                 <div class="Jcommon-head">
-                    <el-form @submit.native.prevent size="mini" :style="'width:100%'">
+                    <el-form size="mini" :style="'width:100%'" @submit.native.prevent>
                         <el-row :gutter="16" :style="'width:100%'">
                             <el-col :span="4">
                                 <el-form-item label="总计收费" style="margin-bottom: 0px">
@@ -73,7 +73,7 @@
                 </div>
                 <div>
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="常规收费合计" name="first"></el-tab-pane>
                         </el-tabs>
                     </div>
@@ -88,7 +88,7 @@
                 </div>
                 <div>
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="押金收费合计" name="first"></el-tab-pane>
                         </el-tabs>
                     </div>
@@ -101,7 +101,7 @@
                 </div>
                 <div>
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="临时收费合计" name="first"></el-tab-pane>
                         </el-tabs>
                     </div>
@@ -115,7 +115,7 @@
 
                 <h1 style="margin-top: 50px; padding-left: 10px">退费合计</h1>
                 <div class="Jcommon-head">
-                    <el-form @submit.native.prevent size="mini" :style="'width:100%'">
+                    <el-form size="mini" :style="'width:100%'" @submit.native.prevent>
                         <el-row :gutter="16" :style="'width:100%'">
                             <el-col :span="4">
                                 <el-form-item label="退还金额" style="margin-bottom: 0px">
@@ -129,7 +129,7 @@
                 </div>
                 <div>
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="押金退还合计" name="first"></el-tab-pane>
                         </el-tabs>
                     </div>
@@ -142,7 +142,7 @@
                 </div>
                 <div>
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="临时收费退还合计" name="first"></el-tab-pane>
                         </el-tabs>
                     </div>

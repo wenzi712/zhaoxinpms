@@ -1,27 +1,20 @@
 <template>
-    <el-dialog
-        :title="'生成数据（非抄表）'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        lock-scroll
-        width="800px"
-    >
+    <el-dialog :title="'生成数据（非抄表）'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" lock-scroll width="800px">
         <el-steps :active="active" align-center>
             <el-step title="生成规则"></el-step>
             <el-step title="数据确认"></el-step>
         </el-steps>
-        <div class="import-main" v-show="active == 1">
+        <div v-show="active == 1" class="import-main">
             <el-row :gutter="15" class="">
                 <el-form
                     ref="elForm"
+                    v-loading="loading"
                     :model="dataForm"
                     :rules="rules"
                     size="medium"
                     label-width="120px"
                     label-position="right"
                     :disabled="!!isDetail"
-                    v-loading="loading"
                 >
                     <el-col :span="12" style="height: 59px">
                         <el-form-item label="费用生效时间" prop="pickerVal">
@@ -78,7 +71,7 @@
                 </el-form>
             </el-row>
         </div>
-        <div class="import-main" v-show="active == 2">
+        <div v-show="active == 2" class="import-main">
             <JTable :data="list" height="300" :summary-method="getSummaries" show-summary>
                 <el-table-column prop="resourceName" label="编号" align="left" width="100" />
                 <el-table-column prop="feeItemName" label="收费项名" align="left" width="150" />
@@ -92,8 +85,8 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button @click="dataFormSubmit()" type="primary" v-if="active == 1" :loading="btnLoading">生成数据</el-button>
-            <el-button type="primary" v-if="active == 2" @click="dataFormSubmit()">确 定</el-button>
+            <el-button v-if="active == 1" type="primary" :loading="btnLoading" @click="dataFormSubmit()">生成数据</el-button>
+            <el-button v-if="active == 2" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -186,7 +179,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,5})|(0{1}))(\.\d{0,4})?$/,
                         message: '小数点前最多6位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
             },

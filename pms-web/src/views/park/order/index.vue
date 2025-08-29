@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="8">
                         <el-form-item label="支付时间" prop="payTimeRange">
                             <el-date-picker
@@ -27,8 +27,7 @@
             </el-row>
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
-                    
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="paymentOrderList" @selection-change="handleSelectionChange">
@@ -36,11 +35,7 @@
                     <el-table-column label="缴费内容" align="center" prop="subject" />
                     <el-table-column label="支付方式" align="center" prop="wayCode" />
                     <el-table-column label="支付金额" align="center" prop="amount" />
-                    <el-table-column
-                        label="支付状态"
-                        align="center"
-                        prop="stateName"
-                    />
+                    <el-table-column label="支付状态" align="center" prop="stateName" />
 
                     <el-table-column label="openId" align="center" prop="openId" />
                     <el-table-column label="支付成功时间" align="center" prop="successTime" width="160">
@@ -133,9 +128,7 @@ export default {
             // 表单参数
             form: {},
             // 表单校验
-            rules: {
-               
-            },
+            rules: {},
         };
     },
     created() {

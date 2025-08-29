@@ -1,13 +1,5 @@
 <template>
-    <el-dialog
-        :title="'历史数据'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        width="900px"
-        height="70%"
-        lock-scroll
-    >
+    <el-dialog :title="'历史数据'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" width="900px" height="70%" lock-scroll>
         <div class="Jflex-main" style="overflow: hidden; height: 100%; padding-bottom: 18px">
             <JTable v-loading="listLoading" :data="list">
                 <el-table-column prop="payTime" label="打印" align="left" width="50">
@@ -26,8 +18,8 @@
                 <el-table-column prop="receivable" label="实收金额" align="left" />
                 <el-table-column label="付款状态" align="left">
                     <template slot-scope="scope">
-                        <el-tag size="small" v-if="scope.row.payLogId !== ''">已付款</el-tag>
-                        <el-tag size="small" type="danger" v-if="scope.row.payLogId === ''">未付款</el-tag>
+                        <el-tag v-if="scope.row.payLogId !== ''" size="small">已付款</el-tag>
+                        <el-tag v-if="scope.row.payLogId === ''" size="small" type="danger">未付款</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="payTime" label="缴费时间" align="left" width="150" />

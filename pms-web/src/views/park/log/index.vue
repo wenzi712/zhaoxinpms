@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="车牌号" prop="numberPlate">
                             <el-input v-model="queryParams.numberPlate" placeholder="请输入车牌号" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -27,12 +27,12 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['park:log:add']">
+                            <el-button v-hasPermi="['park:log:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">
                                 新增入场记录
                             </el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
@@ -65,7 +65,7 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['park:log:edit']">
+                            <el-button v-hasPermi="['park:log:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 手动出场
                             </el-button>
                         </template>
@@ -79,30 +79,30 @@
         <!-- 添加或修改车辆出入记录对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body :close-on-click-modal="false">
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-                <el-form-item label="车牌号" prop="numberPlate" v-if="!form.id">
+                <el-form-item v-if="!form.id" label="车牌号" prop="numberPlate">
                     <el-input v-model="form.numberPlate" placeholder="请输入车牌号" style="width: 70%" />
                     <el-button @click="showPlateNumberDialog">输入车牌</el-button>
                 </el-form-item>
-                <el-form-item label="停车场" prop="parkId" v-if="!form.id">
+                <el-form-item v-if="!form.id" label="停车场" prop="parkId">
                     <el-select v-model="form.parkId" placeholder="请选择停车场" clearable size="small">
                         <el-option v-for="dict in parkList" :key="dict.id" :label="dict.name" :value="dict.id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="进场时间" prop="inTime" v-if="!form.id">
+                <el-form-item v-if="!form.id" label="进场时间" prop="inTime">
                     <el-date-picker v-model="form.inTime" type="datetime" value-format="timestamp" placeholder="请输入进场时间"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="车牌号" prop="numberPlate" v-if="form.id">
-                    <el-input v-model="form.numberPlate" placeholder="请输入车牌号" disabled/>
+                <el-form-item v-if="form.id" label="车牌号" prop="numberPlate">
+                    <el-input v-model="form.numberPlate" placeholder="请输入车牌号" disabled />
                 </el-form-item>
-                <el-form-item label="停车场" prop="parkId" v-if="form.id">
+                <el-form-item v-if="form.id" label="停车场" prop="parkId">
                     <el-select v-model="form.parkId" placeholder="请选择停车场" clearable size="small" disabled>
                         <el-option v-for="dict in parkList" :key="dict.id" :label="dict.name" :value="dict.id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="进场时间" prop="inTime" v-if="form.id">
-                    <el-date-picker disabled v-model="form.inTime" type="datetime" value-format="timestamp" placeholder="请输入进场时间"></el-date-picker>
+                <el-form-item v-if="form.id" label="进场时间" prop="inTime">
+                    <el-date-picker v-model="form.inTime" disabled type="datetime" value-format="timestamp" placeholder="请输入进场时间"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="离场时间" prop="outTime" v-if="form.id">
+                <el-form-item v-if="form.id" label="离场时间" prop="outTime">
                     <el-date-picker v-model="form.outTime" type="datetime" value-format="timestamp" placeholder="请输入离场时间"></el-date-picker>
                 </el-form-item>
             </el-form>

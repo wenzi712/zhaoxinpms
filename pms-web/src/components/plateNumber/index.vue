@@ -4,7 +4,7 @@
             <div class="pop">
                 <div class="title">
                     <span v-for="(item, index) in textList" :key="index">{{ item }}</span>
-                    <i @click="colse" class="iconfont icon-quxiao"></i>
+                    <i class="iconfont icon-quxiao" @click="colse"></i>
                 </div>
                 <div class="pro flx-w">
                     <span v-for="(item, index) in items" :key="index" @click="add(item.text)">{{ item.text }}</span>
@@ -120,7 +120,7 @@ export default {
             if (vefy === false) {
                 this.$message({
                     message: '车牌号错误',
-                    type: 'error'
+                    type: 'error',
                 });
             } else {
                 this.$emit('confirm', lists);

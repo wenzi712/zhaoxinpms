@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="用户标识" prop="openId">
                             <el-input v-model="queryParams.openId" placeholder="请输入用户标识" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -28,14 +28,12 @@
                 </el-form>
             </el-row>
             <div class="Jcommon-layout-main Jflex-main">
-                <div class="Jcommon-head">
-                   
-                </div>
+                <div class="Jcommon-head"></div>
 
                 <JTable v-loading="loading" :data="wxUserList" @selection-change="handleSelectionChange">
                     <el-table-column label="头像" align="center" prop="headimgUrl">
                         <template slot-scope="scope">
-                            <img :src="scope.row.headimgUrl" width="60px"/>
+                            <img :src="scope.row.headimgUrl" width="60px" />
                         </template>
                     </el-table-column>
                     <el-table-column label="用户标识" align="center" prop="openId" />
@@ -47,7 +45,7 @@
                     <el-table-column label="手机号码" align="center" prop="phone" />
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px;">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['owner:wxUser:remove']">
+                            <el-button v-hasPermi="['owner:wxUser:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                         </template>
@@ -86,9 +84,9 @@
                 </el-form-item>
                 <el-form-item label="关注时间" prop="subscribeTime">
                     <el-date-picker
+                        v-model="form.subscribeTime"
                         clearable
                         size="small"
-                        v-model="form.subscribeTime"
                         type="date"
                         value-format="yyyy-MM-dd"
                         placeholder="选择关注时间"
@@ -99,9 +97,9 @@
                 </el-form-item>
                 <el-form-item label="取消关注时间" prop="cancelSubscribeTime">
                     <el-date-picker
+                        v-model="form.cancelSubscribeTime"
                         clearable
                         size="small"
-                        v-model="form.cancelSubscribeTime"
                         type="date"
                         value-format="yyyy-MM-dd"
                         placeholder="选择取消关注时间"

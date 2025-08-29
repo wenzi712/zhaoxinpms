@@ -8,11 +8,11 @@
                 </div>
                 <div class="head-container">
                     <el-tree
+                        ref="tree"
                         :data="deptOptions"
                         :props="defaultProps"
                         :expand-on-click-node="false"
                         :filter-node-method="filterNode"
-                        ref="tree"
                         default-expand-all
                         @node-click="handleNodeClick"
                     />
@@ -20,7 +20,7 @@
             </el-col>
             <!--用户数据-->
             <el-col :span="20" :xs="24">
-                <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
                     <el-form-item label="用户名称" prop="userName">
                         <el-input
                             v-model="queryParams.userName"
@@ -66,112 +66,112 @@
 
                 <el-row :gutter="10" class="mb8">
                     <el-col :span="1.5">
-                        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:user:add']">新增</el-button>
+                        <el-button v-hasPermi="['system:user:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
                     </el-col>
                     <el-col :span="1.5">
                         <el-button
+                            v-hasPermi="['system:user:edit']"
                             type="success"
                             plain
                             icon="el-icon-edit"
                             size="mini"
                             :disabled="single"
                             @click="handleUpdate"
-                            v-hasPermi="['system:user:edit']"
                         >
                             修改
                         </el-button>
                     </el-col>
                     <el-col :span="1.5">
                         <el-button
+                            v-hasPermi="['system:user:remove']"
                             type="danger"
                             plain
                             icon="el-icon-delete"
                             size="mini"
                             :disabled="multiple"
                             @click="handleDelete"
-                            v-hasPermi="['system:user:remove']"
                         >
                             删除
                         </el-button>
                     </el-col>
                     <el-col :span="1.5">
-                        <el-button type="info" plain icon="el-icon-upload2" size="mini" @click="handleImport" v-hasPermi="['system:user:import']">
+                        <el-button v-hasPermi="['system:user:import']" type="info" plain icon="el-icon-upload2" size="mini" @click="handleImport">
                             导入
                         </el-button>
                     </el-col>
                     <el-col :span="1.5">
                         <el-button
+                            v-hasPermi="['system:user:export']"
                             type="warning"
                             plain
                             icon="el-icon-download"
                             size="mini"
                             :loading="exportLoading"
                             @click="handleExport"
-                            v-hasPermi="['system:user:export']"
                         >
                             导出
                         </el-button>
                     </el-col>
                     <el-col :span="1.5">
                         <el-button
+                            v-hasPermi="['system:user:edit']"
                             type="success"
                             plain
                             icon="el-icon-up"
                             size="mini"
                             :loading="userLoading"
                             @click="syncUser"
-                            v-hasPermi="['system:user:edit']"
                         >
                             同步用户到企业微信
                         </el-button>
                     </el-col>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" :columns="columns" @queryTable="getList"></right-toolbar>
                 </el-row>
 
                 <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="50" align="center" />
-                    <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
-                    <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-                    <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-                    <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-                    <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
-                    <el-table-column label="企业微信码" align="center" key="qrcode" prop="qrcode" width="100" >
+                    <el-table-column v-if="columns[0].visible" key="userId" label="用户编号" align="center" prop="userId" />
+                    <el-table-column v-if="columns[1].visible" key="userName" label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" />
+                    <el-table-column v-if="columns[2].visible" key="nickName" label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
+                    <el-table-column v-if="columns[3].visible" key="deptName" label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
+                    <el-table-column v-if="columns[4].visible" key="phonenumber" label="手机号码" align="center" prop="phonenumber" width="120" />
+                    <el-table-column key="qrcode" label="企业微信码" align="center" prop="qrcode" width="100">
                         <template slot-scope="scope">
-                            <img :src="scope.row.qrcode" width="80"/>
+                            <img :src="scope.row.qrcode" width="80" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
+                    <el-table-column v-if="columns[5].visible" key="status" label="状态" align="center">
                         <template slot-scope="scope">
                             <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
                         </template>
                     </el-table-column>
-                    <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="160">
+                    <el-table-column v-if="columns[6].visible" label="创建时间" align="center" prop="createTime" width="160">
                         <template slot-scope="scope">
                             <span>{{ parseTime(scope.row.createTime) }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
-                        <template slot-scope="scope" v-if="scope.row.userId !== 1">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']">
+                        <template v-if="scope.row.userId !== 1" slot-scope="scope">
+                            <el-button v-hasPermi="['system:user:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']">
+                            <el-button v-hasPermi="['system:user:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                             <el-dropdown
+                                v-hasPermi="['system:user:resetPwd', 'system:user:edit']"
                                 size="mini"
                                 @command="command => handleCommand(command, scope.row)"
-                                v-hasPermi="['system:user:resetPwd', 'system:user:edit']"
                             >
                                 <span class="el-dropdown-link">
                                     <i class="el-icon-d-arrow-right el-icon--right"></i>
                                     更多
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item command="handleResetPwd" icon="el-icon-key" v-hasPermi="['system:user:resetPwd']">
+                                    <el-dropdown-item v-hasPermi="['system:user:resetPwd']" command="handleResetPwd" icon="el-icon-key">
                                         重置密码
                                     </el-dropdown-item>
-                                    <el-dropdown-item command="handleAuthRole" icon="el-icon-circle-check" v-hasPermi="['system:user:edit']">
+                                    <el-dropdown-item v-hasPermi="['system:user:edit']" command="handleAuthRole" icon="el-icon-circle-check">
                                         分配角色
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
@@ -300,8 +300,8 @@
                     将文件拖到此处，或
                     <em>点击上传</em>
                 </div>
-                <div class="el-upload__tip text-center" slot="tip">
-                    <div class="el-upload__tip" slot="tip">
+                <div slot="tip" class="el-upload__tip text-center">
+                    <div slot="tip" class="el-upload__tip">
                         <el-checkbox v-model="upload.updateSupport" />
                         是否更新已经存在的用户数据
                     </div>
@@ -453,10 +453,9 @@ export default {
         syncUser() {
             this.userLoading = true;
             syncUser().then(res => {
-                
                 this.$modal.msgSuccess('同步数据成功');
                 this.userLoading = false;
-            })
+            });
         },
         /** 查询用户列表 */
         getList() {

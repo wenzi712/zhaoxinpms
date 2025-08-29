@@ -10,13 +10,13 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <el-col :span="24">
                     <el-form-item label="类型" prop="type">
@@ -38,13 +38,13 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house'">
+                <el-col v-if="dataForm.type === 'house'" :span="24">
                     <el-form-item label="单价" prop="price">
                         <el-input v-model="dataForm.price" placeholder="没有固定单价的填写1" :maxlength="7" clearable :style="{ width: '100%' }"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house'">
+                <el-col v-if="dataForm.type === 'house'" :span="24">
                     <el-form-item label="数量" prop="numType">
                         <el-select v-model="dataForm.numType" placeholder="请选择" clearable :style="{ width: '100%' }" :multiple="false">
                             <el-option
@@ -58,7 +58,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house'">
+                <el-col v-if="dataForm.type === 'house'" :span="24">
                     <el-form-item label="计算公式" prop="formula">
                         <el-select v-model="dataForm.formula" placeholder="请选择" clearable :style="{ width: '100%' }" :multiple="false">
                             <el-option
@@ -72,7 +72,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house' && dataForm.formula === 'expression'">
+                <el-col v-if="dataForm.type === 'house' && dataForm.formula === 'expression'" :span="24">
                     <el-form-item label="自定义" prop="formulaExpression">
                         <el-input
                             v-model="dataForm.formulaExpression"
@@ -114,12 +114,12 @@
                                     }
                                 </p>
                             </div>
-                            <el-link type="primary" slot="reference">点击查看使用说明</el-link>
+                            <el-link slot="reference" type="primary">点击查看使用说明</el-link>
                         </el-popover>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house'">
+                <el-col v-if="dataForm.type === 'house'" :span="24">
                     <el-form-item label="计算周期" prop="period">
                         <el-select v-model="dataForm.period" placeholder="几个月收费一次" clearable :style="{ width: '100%' }" :multiple="false">
                             <el-option
@@ -133,7 +133,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house'">
+                <el-col v-if="dataForm.type === 'house'" :span="24">
                     <el-form-item label="滞纳金" prop="lateFeeEnable">
                         <el-radio-group v-model="dataForm.lateFeeEnable" size="medium">
                             <el-radio-button v-for="(item, index) in lateFeeEnableOptions" :key="index" :label="item.id" :disabled="item.disabled">
@@ -143,7 +143,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house' && dataForm.lateFeeEnable === '1'">
+                <el-col v-if="dataForm.type === 'house' && dataForm.lateFeeEnable === '1'" :span="24">
                     <el-form-item label="滞纳金比例" prop="lateFeeRate">
                         <el-input v-model="dataForm.lateFeeRate" placeholder="请输入滞纳金百分比" clearable :style="{ width: '100%' }">
                             <template slot="append">%</template>
@@ -151,7 +151,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" v-if="dataForm.type === 'house' && dataForm.lateFeeEnable === '1'">
+                <el-col v-if="dataForm.type === 'house' && dataForm.lateFeeEnable === '1'" :span="24">
                     <el-form-item label="滞纳金天数" prop="lateFeeDays">
                         <el-input v-model="dataForm.lateFeeDays" placeholder="请输入滞纳金天数" clearable :style="{ width: '100%' }"></el-input>
                     </el-form-item>
@@ -160,7 +160,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -216,7 +216,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,5})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多6位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 numType: [
@@ -331,7 +331,7 @@ export default {
                         this.dataForm = res.data;
                         this.loading = false;
                     });
-                }else{
+                } else {
                     this.dataForm = {
                         type: '',
                         name: undefined,
@@ -343,7 +343,7 @@ export default {
                         lateFeeEnable: '0',
                         lateFeeRate: 0.6,
                         lateFeeDays: 60,
-                    }
+                    };
                 }
             });
         },

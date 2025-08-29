@@ -2,13 +2,13 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="关键字" prop="procInstName">
                             <el-input v-model="queryParams.procInstName" placeholder="请输入关键字" clearable size="small" @keyup.enter.native="handleQuery" />
                         </el-form-item>
                     </el-col>
-                   
+
                     <el-col :span="6">
                         <el-form-item>
                             <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -19,27 +19,27 @@
             </el-row>
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
-                     <div>
+                    <div>
                         <el-button type="primary" icon="el-icon-plus" @click="create()">发起流程</el-button>
                     </div>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
                 <JTable v-loading="loading" :data="proInstList" @selection-change="handleSelectionChange">
                     <el-table-column label="标题" align="left" prop="name" />
-                    <el-table-column label="流程类型" prop="processDefinitionName" width="150"/>
+                    <el-table-column label="流程类型" prop="processDefinitionName" width="150" />
                     <el-table-column label="发起时间" align="center" prop="startTime" width="150">
                         <template slot-scope="scope">
                             <span>{{ parseTime(scope.row.startTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="结束时间" align="center" prop="endTime" width="150" >
+                    <el-table-column label="结束时间" align="center" prop="endTime" width="150">
                         <template slot-scope="scope">
                             <span>{{ parseTime(scope.row.endTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="状态" align="center" prop="state" width="100">
                         <template slot-scope="scope">
-                            <el-tag type="success" v-if="scope.row.endTime">已结束</el-tag>
+                            <el-tag v-if="scope.row.endTime" type="success">已结束</el-tag>
                             <el-tag v-else>进行中</el-tag>
                         </template>
                     </el-table-column>
@@ -53,8 +53,8 @@
                 <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
             </div>
         </div>
-        <AuditForm v-if="formVisible" ref="auditForm"  @close="colseForm"/>
-        <CreateForm v-if="showCreate" ref="createForm"/>
+        <AuditForm v-if="formVisible" ref="auditForm" @close="colseForm" />
+        <CreateForm v-if="showCreate" ref="createForm" />
     </div>
 </template>
 

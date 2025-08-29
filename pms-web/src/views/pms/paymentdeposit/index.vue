@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="编号">
-                            <HouseInput  v-model="query.resourceName"/>
+                            <HouseInput v-model="query.resourceName" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -58,8 +58,8 @@
                         <el-form-item>
                             <el-button type="primary" icon="el-icon-search" @click="search()">查询</el-button>
                             <el-button icon="el-icon-refresh-right" @click="reset()">重置</el-button>
-                            <el-button type="text" icon="el-icon-arrow-down" @click="showAll = true" v-if="!showAll">展开</el-button>
-                            <el-button type="text" icon="el-icon-arrow-up" @click="showAll = false" v-else>收起</el-button>
+                            <el-button v-if="!showAll" type="text" icon="el-icon-arrow-down" @click="showAll = true">展开</el-button>
+                            <el-button v-else type="text" icon="el-icon-arrow-up" @click="showAll = false">收起</el-button>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -73,7 +73,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -89,7 +88,7 @@
                     <el-table-column prop="state" label="状态" align="left">
                         <template slot-scope="scope">
                             <el-tag v-if="scope.row.state == 'refunded'">已退款</el-tag>
-                            <el-tag type="danger" v-if="scope.row.state == 'paied'">未退款</el-tag>
+                            <el-tag v-if="scope.row.state == 'paied'" type="danger">未退款</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" align="left" />
@@ -209,7 +208,7 @@ export default {
             });
         },
         getPayTypeOptions() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payTypeOptions = res.data.list;
             });
         },

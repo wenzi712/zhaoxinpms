@@ -12,15 +12,13 @@
                             </span>
                             <h2 style="width: 60%; margin: 0 auto; line-height: 80px">{{ data.company }} 缴费通知单</h2>
                             <span style="display: block; position: absolute; top: 0; right: 0">
-                                <!-- 扫码支付二维码 
+                                <!-- 扫码支付二维码
                             <img src="{{= data.retData.expressQRcode}}" width="110" height="110">
                             --></span>
                         </div>
                     </td>
                 </tr>
-                <tr>
-
-                </tr>
+                <tr></tr>
             </table>
         </div>
         <div id="print-body" ref="print-body">
@@ -47,10 +45,9 @@
                 </tbody>
 
                 <tbody></tbody>
-                
             </table>
         </div>
-        
+
         <div id="print-pages" ref="print-pages">
             <p style="text-align: center; font-size: 12px">
                 页码：
@@ -75,7 +72,7 @@ export default {
     methods: {
         getData(resourceName, feeItemId) {
             return request({
-                url: '/payment/PaymentBillNotify/print?resourceName=' + resourceName + "&feeItemId=" + feeItemId,
+                url: '/payment/PaymentBillNotify/print?resourceName=' + resourceName + '&feeItemId=' + feeItemId,
                 method: 'get',
             });
         },

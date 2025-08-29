@@ -1,6 +1,6 @@
 <template>
     <el-dialog title="缴费单支付" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" lock-scroll width="800px">
-        <el-form ref="elForm" :model="dataForm" :rules="rules" size="medium" label-width="100px" label-position="right" v-loading="loading">
+        <el-form ref="elForm" v-loading="loading" :model="dataForm" :rules="rules" size="medium" label-width="100px" label-position="right">
             <el-row :gutter="15" class="">
                 <el-col :span="12">
                     <el-form-item label="资源名" prop="resourceName" :style="{ height: '33px' }">
@@ -144,7 +144,7 @@ export default {
     mounted() {},
     methods: {
         getpayMethod() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payMethod = res.data.list;
             });
         },

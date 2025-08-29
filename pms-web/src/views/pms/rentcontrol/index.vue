@@ -44,26 +44,24 @@
 
                 <div style="overflow-y: scroll">
                     <div>
-                        <div v-if="data.key.length == 0" style="padding-left:30px;">
-                            商铺信息为空，请选择其他楼栋进行查询
-                        </div>
-                        <div v-else class="floorDiv" v-for="(item, index) in data.key" :key="index">
+                        <div v-if="data.key.length == 0" style="padding-left: 30px">商铺信息为空，请选择其他楼栋进行查询</div>
+                        <div v-for="(item, index) in data.key" v-else :key="index" class="floorDiv">
                             <div class="floorInfo">{{ item }}层</div>
                             <div style="flex: 1; display: flex; flex-wrap: wrap">
-                                <div class="houseDiv" v-for="(house, houseindex) in data.list[item]" :key="houseindex">
+                                <div v-for="(house, houseindex) in data.list[item]" :key="houseindex" class="houseDiv">
                                     <div class="header" :class="house.showState + '-background'">
                                         <div class="title-box">{{ house.name }}（{{ house.buildingsquare }}㎡）</div>
                                     </div>
                                     <div class="body">
-                                        <div v-if="house.showState == 'empty'" class="text">{{house.remark}}</div>
+                                        <div v-if="house.showState == 'empty'" class="text">{{ house.remark }}</div>
                                         <div v-else-if="house.showState == 'selled'" class="text">
-                                            {{house.stateCompany}}
-                                            <br/>
+                                            {{ house.stateCompany }}
+                                            <br />
                                             已出售
                                         </div>
                                         <div v-else class="text">
-                                            {{house.stateCompany}}
-                                            <br/>
+                                            {{ house.stateCompany }}
+                                            <br />
                                             {{ parseTime(house.stateEndTime, '{y}-{m}-{d}') }}到期
                                         </div>
                                     </div>
@@ -85,7 +83,7 @@ export default {
         return {
             activeName: 'first',
             data: {
-                key:[],
+                key: [],
             },
             buildings: [],
             dataForm: {
@@ -96,7 +94,7 @@ export default {
     created() {
         this.init();
         //为了演示，这是设置一个固定的楼栋
-        this.dataForm.buildingSelect=['01','1540273162296537089'];
+        this.dataForm.buildingSelect = ['01', '1540273162296537089'];
         this.search();
     },
     methods: {
@@ -108,7 +106,7 @@ export default {
         handleClick() {},
         search() {
             request({
-                url: `/baseconfig/House/rentControl/`+this.dataForm.buildingSelect[1],
+                url: `/baseconfig/House/rentControl/` + this.dataForm.buildingSelect[1],
                 method: 'GET',
             }).then(res => {
                 this.data = res.data;

@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="发送方式：" prop="esType">
                             <el-input v-model="queryParams.esType" placeholder="请输入发送方式" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -30,7 +30,7 @@
                         </el-col>
                         -->
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="smsList" @selection-change="handleSelectionChange">
@@ -49,17 +49,17 @@
                     <el-table-column label="发送次数" align="center" prop="esSendNum" />
                     <el-table-column label="推送失败原因" align="center" prop="esResult" />
                     <el-table-column label="备注" align="center" prop="remark" />
-                     <!--
+                    <!--
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                           
+
                             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['payment:sms:edit']">
                                 修改
                             </el-button>
                             <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['payment:sms:remove']">
                                 删除
                             </el-button>
-                           
+
                         </template>
                     </el-table-column>
                      -->
@@ -91,9 +91,9 @@
                 </el-form-item>
                 <el-form-item label="推送时间" prop="esSendTime">
                     <el-date-picker
+                        v-model="form.esSendTime"
                         clearable
                         size="small"
-                        v-model="form.esSendTime"
                         type="date"
                         value-format="yyyy-MM-dd"
                         placeholder="选择推送时间"

@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="报修单号" prop="no">
                             <el-input v-model="queryParams.no" placeholder="请输入报修单号" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -57,12 +57,12 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['business:repair:add']">
+                            <el-button v-hasPermi="['business:repair:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">
                                 新增
                             </el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
                 <JTable v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
                     <el-table-column label="报修单号" align="center" prop="no" />
@@ -112,7 +112,7 @@
                         <el-option v-for="dict in dict.type.repair_category" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商铺编号" prop="applyHouse" v-if="form.client != 'web_company'">
+                <el-form-item v-if="form.client != 'web_company'" label="商铺编号" prop="applyHouse">
                     <el-input v-model="form.applyHouse" placeholder="商铺编号" clearable :style="{ width: '70%' }"></el-input>
                     <el-button type="primary" @click="searchHouse()">搜索</el-button>
                 </el-form-item>
@@ -122,11 +122,11 @@
                 <el-form-item label="报修电话" prop="applyPhone" :maxlength="20">
                     <el-input v-model="form.applyPhone" placeholder="请输入报修电话" />
                 </el-form-item>
-                <el-form-item label="预约时间" prop="appointmentTime" v-if="form.client != 'web_company'">
+                <el-form-item v-if="form.client != 'web_company'" label="预约时间" prop="appointmentTime">
                     <el-date-picker
+                        v-model="form.appointmentTime"
                         clearable
                         size="small"
-                        v-model="form.appointmentTime"
                         type="datetime"
                         value-format="yyyy-MM-dd HH:mm:ss"
                         placeholder="选择预约时间"
@@ -154,7 +154,7 @@
         </el-dialog>
 
         <!-- 处理框-->
-        <component :is="currentView" v-if="formVisible" @close="colseForm" ref="auditForm" />
+        <component :is="currentView" v-if="formVisible" ref="auditForm" @close="colseForm" />
     </div>
 </template>
 

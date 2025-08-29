@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="10" class="dataBoard">
-        <el-col :span="6" class="dataBoard-item" v-for="(item, i) in menuList" :key="i">
+        <el-col v-for="(item, i) in menuList" :key="i" :span="6" class="dataBoard-item">
             <el-card shadow="never">
                 <div class="dataBoard-body">
                     <i :class="item.icon + ' dataBoard-body-item dataBoard-body-item' + (i + 1)"></i>

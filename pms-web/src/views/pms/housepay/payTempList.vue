@@ -1,8 +1,8 @@
 <template>
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
-            <el-row class="Jcommon-search-box" :gutter="16" v-if="false">
-                <el-form @submit.native.prevent size="mini">
+            <el-row v-if="false" class="Jcommon-search-box" :gutter="16">
+                <el-form size="mini" @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="状态">
                             <el-select v-model="query.state" placeholder="请选择" clearable>
@@ -59,8 +59,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -72,7 +70,7 @@
                     <el-table-column prop="operateTime" label="收款时间" align="left" />
                     <el-table-column prop="state" label="状态" align="left">
                         <template slot-scope="scope">
-                            <el-tag type="danger" v-if="scope.row.state == 'refunded'">已退款</el-tag>
+                            <el-tag v-if="scope.row.state == 'refunded'" type="danger">已退款</el-tag>
                             <el-tag v-if="scope.row.state == 'paied'">已付款</el-tag>
                         </template>
                     </el-table-column>
@@ -179,7 +177,7 @@ export default {
             });
         },
         getPayTypeOptions() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payTypeOptions = res.data.list;
             });
         },

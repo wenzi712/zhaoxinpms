@@ -30,7 +30,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -105,14 +104,10 @@ export default {
             });
         },
         handleDel(id) {
-            this.$confirm(
-                "此操作将永久删除该商业区与该商业区下的商铺，是否继续?<br/>",
-                '提示',
-                {
-                    type: 'warning',
-                    dangerouslyUseHTMLString: true,
-                }
-            )
+            this.$confirm('此操作将永久删除该商业区与该商业区下的商铺，是否继续?<br/>', '提示', {
+                type: 'warning',
+                dangerouslyUseHTMLString: true,
+            })
                 .then(() => {
                     request({
                         url: `/baseconfig/ConfigHouseBlock/${id}`,

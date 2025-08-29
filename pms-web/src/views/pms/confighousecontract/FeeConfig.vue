@@ -8,7 +8,7 @@
         height="50%"
         lock-scroll
     >
-        <div class="Jflex-main" style="overflow: hidden; height: 100%; padding-bottom: 18px;">
+        <div class="Jflex-main" style="overflow: hidden; height: 100%; padding-bottom: 18px">
             <JTable v-loading="listLoading" :data="feeItemList">
                 <el-table-column prop="feeItemName" label="收费项名" align="left" />
                 <el-table-column prop="price" label="单价" align="left" />

@@ -1,29 +1,14 @@
 <template>
-    <el-dialog
-        :title="'收费数据退费'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        lock-scroll
-        width="800px"
-    >
+    <el-dialog :title="'收费数据退费'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" lock-scroll width="800px">
         <el-row :gutter="15" class="">
-            <el-form
-                ref="elForm"
-                :model="refundForm"
-                :rules="rules"
-                size="medium"
-                label-width="100px"
-                label-position="right"
-                v-loading="loading"
-            >
-                <el-col :span="12" style="height:59px">
+            <el-form ref="elForm" v-loading="loading" :model="refundForm" :rules="rules" size="medium" label-width="100px" label-position="right">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="商铺编号" prop="resourceName">
-                        <el-input :disabled="true" v-model="dataForm.resourceName" placeholder="商铺编号" clearable></el-input>
+                        <el-input v-model="dataForm.resourceName" :disabled="true" placeholder="商铺编号" clearable></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="客户姓名" prop="feeUser">
                         <el-input
                             v-model="dataForm.feeUser"
@@ -36,16 +21,9 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="收费项目" prop="feeItemId">
-                        <el-select
-                            v-model="dataForm.feeItemId"
-                            placeholder="请选择"
-                            clearable
-                            :style="{ width: '100%' }"
-                            :multiple="false"
-                            :disabled="true"
-                        >
+                        <el-select v-model="dataForm.feeItemId" placeholder="请选择" clearable :style="{ width: '100%' }" :multiple="false" :disabled="true">
                             <el-option
                                 v-for="(item, index) in feeItemList"
                                 :key="index"
@@ -56,17 +34,17 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="收款时间" prop="payTime">
                         <el-input v-model="dataForm.payTime" placeholder="请输入" clearable :style="{ width: '100%' }" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="收款金额" prop="receivable">
                         <el-input v-model="dataForm.receivable" placeholder="请输入" clearable :style="{ width: '100%' }" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="已退款金额" prop="refundAmount">
                         <el-input v-model="dataForm.refundAmount" placeholder="请输入" clearable :style="{ width: '100%' }" :disabled="true"></el-input>
                     </el-form-item>
@@ -84,16 +62,31 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" style="height:59px">
-                    <el-form-item label="退款金额" prop="currentRefundAmount"> 
-                        <el-input v-model="refundForm.currentRefundAmount" placeholder="请输入" clearable :style="{ width: '100%' }" maxlength="10" show-word-limit></el-input>
+                <el-col :span="12" style="height: 59px">
+                    <el-form-item label="退款金额" prop="currentRefundAmount">
+                        <el-input
+                            v-model="refundForm.currentRefundAmount"
+                            placeholder="请输入"
+                            clearable
+                            :style="{ width: '100%' }"
+                            maxlength="10"
+                            show-word-limit
+                        ></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="退款说明" prop="refundComment">
-                        <el-input  type="textarea"
-                            :autosize="{ minRows: 4, maxRows: 4 }" v-model="refundForm.refundComment" placeholder="请输入" clearable :style="{ width: '100%' }" maxlength="100" show-word-limit></el-input>
+                        <el-input
+                            v-model="refundForm.refundComment"
+                            type="textarea"
+                            :autosize="{ minRows: 4, maxRows: 4 }"
+                            placeholder="请输入"
+                            clearable
+                            :style="{ width: '100%' }"
+                            maxlength="100"
+                            show-word-limit
+                        ></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
@@ -132,7 +125,7 @@ export default {
             refundForm: {
                 billId: undefined,
                 currentRefundAmount: 0,
-                payMethod:'',
+                payMethod: '',
                 refundComment: '',
             },
             feeItemList: [],
@@ -172,7 +165,7 @@ export default {
     mounted() {},
     methods: {
         getpayMethod() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payMethod = res.data.list;
             });
         },

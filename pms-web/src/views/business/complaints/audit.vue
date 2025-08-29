@@ -40,7 +40,7 @@
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="投诉图片" prop="applyImg">
-                        <imageUpload v-model="dataForm.applyImg" :disabled="true" :isShowTip="false" />
+                        <imageUpload v-model="dataForm.applyImg" :disabled="true" :is-show-tip="false" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -70,31 +70,31 @@
             </el-row>
             <el-row>
                 <!--投诉确认功能表单-->
-                <el-col :span="12" v-if="canShow('apply')">
+                <el-col v-if="canShow('apply')" :span="12">
                     <el-form-item label="选择处理人" prop="assigneeUser">
                         <org-select
+                            v-if="dataForm.state == 'apply' && this.conf.isAudit"
                             ref="userSelect"
-                            buttonType="button"
                             v-model="selectedUser"
+                            button-type="button"
                             title="选择用户"
                             type="user"
-                            @change="onUserChange"
                             class="mb-10"
-                            v-if="dataForm.state == 'apply' && this.conf.isAudit"
+                            @change="onUserChange"
                         />
                         <el-input
+                            v-if="canShow('processing')"
                             v-model="dataForm.assigneeUserName"
                             placeholder="处理人姓名"
                             readonly
                             :disabled="true"
-                            v-if="canShow('processing')"
                         ></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <!--维修处理表单-->
-                <el-col :span="24" v-if="canShow('processing')">
+                <el-col v-if="canShow('processing')" :span="24">
                     <el-form-item label="处理备注" prop="assigneeContent">
                         <el-input
                             v-model="dataForm.assigneeContent"
@@ -108,19 +108,19 @@
                 </el-col>
 
                 <!--结果确认、回访表单-->
-                <el-col :span="12" v-if="canShow('score')">
+                <el-col v-if="canShow('score')" :span="12">
                     <el-form-item label="回访结果" prop="returnResult">
                         <el-select v-model="dataForm.returnResult" placeholder="请选择回访结果" clearable size="small" :disabled="isDisabled('score')">
                             <el-option v-for="dict in dict.type.return_result" :key="dict.value" :label="dict.label" :value="dict.value" />
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="24" v-if="canShow('score')">
+                <el-col v-if="canShow('score')" :span="24">
                     <el-form-item label="回访意见" prop="returnRemark">
                         <el-input
+                            v-model="dataForm.returnRemark"
                             type="textarea"
                             :rows="3"
-                            v-model="dataForm.returnRemark"
                             placeholder="请输入回访意见"
                             clearable
                             size="small"
@@ -148,9 +148,6 @@ export default {
             selectedUser: [],
             dataRule: {},
         };
-    },
-    created() {
-        this.initData();
     },
     computed: {
         canShow: function () {
@@ -191,6 +188,9 @@ export default {
                 }
             };
         },
+    },
+    created() {
+        this.initData();
     },
     methods: {
         initData() {

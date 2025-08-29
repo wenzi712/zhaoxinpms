@@ -10,7 +10,14 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/recommended', 
+    'eslint:recommended',
+    // 先添加eslint-config-prettier来禁用ESLint中与Prettier冲突的规则
+    'prettier',
+    // 然后添加plugin:prettier/recommended
+    'plugin:prettier/recommended'
+  ],
 
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
@@ -38,7 +45,14 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
+    // Change trailing comma rule to match Prettier's 'es5' setting
+    'comma-dangle': [2, {
+      'arrays': 'always-multiline',
+      'objects': 'always-multiline',
+      'imports': 'always-multiline',
+      'exports': 'always-multiline',
+      'functions': 'never'
+    }],
     'comma-spacing': [2, {
       'before': false,
       'after': true
@@ -54,7 +68,8 @@ module.exports = {
       'after': true
     }],
     'handle-callback-err': [2, '^(err|error)$'],
-    'indent': [2, 2, {
+    // Change indentation to 4 spaces to match Prettier
+    'indent': [2, 4, {
       'SwitchCase': 1
     }],
     'jsx-quotes': [2, 'prefer-single'],
@@ -143,10 +158,8 @@ module.exports = {
     }],
     'no-unreachable': 2,
     'no-unsafe-finally': 2,
-    'no-unused-vars': [2, {
-      'vars': 'all',
-      'args': 'none'
-    }],
+    // 修改no-unused-vars规则从error级别(2)改为warning级别(1)
+    'no-unused-vars': 1,
     'no-useless-call': 2,
     'no-useless-computed-key': 2,
     'no-useless-constructor': 2,
@@ -167,33 +180,10 @@ module.exports = {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    'semi': [2, 'never'],
-    'semi-spacing': [2, {
-      'before': false,
-      'after': true
-    }],
-    'space-before-blocks': [2, 'always'],
-    'space-before-function-paren': [2, 'never'],
-    'space-in-parens': [2, 'never'],
-    'space-infix-ops': 2,
-    'space-unary-ops': [2, {
-      'words': true,
-      'nonwords': false
-    }],
-    'spaced-comment': [2, 'always', {
-      'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
-    }],
-    'template-curly-spacing': [2, 'never'],
-    'use-isnan': 2,
-    'valid-typeof': 2,
-    'wrap-iife': [2, 'any'],
-    'yield-star-spacing': [2, 'both'],
-    'yoda': [2, 'never'],
-    'prefer-const': 2,
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'object-curly-spacing': [2, 'always', {
-      objectsInObjects: false
-    }],
-    'array-bracket-spacing': [2, 'never']
+    // 确保semi规则与Prettier配置一致
+    'semi': [2, 'always'],
+    
+    // Prettier规则
+    'prettier/prettier': 'error'
   }
 }

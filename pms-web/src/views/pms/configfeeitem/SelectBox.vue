@@ -1,13 +1,5 @@
 <template>
-    <el-dialog
-        title="选择收费项"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        lock-scroll
-        append-to-body
-        width="700px"
-    >
+    <el-dialog title="选择收费项" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" lock-scroll append-to-body width="700px">
         <el-row class="Jcommon-search-box" :gutter="16">
             <el-form @submit.native.prevent>
                 <el-col :span="10">
@@ -28,8 +20,8 @@
                 </el-tooltip>
             </div>
         </el-row>
-        <el-table v-loading="listLoading" :data="list" hasC @selection-change="handleSelectionChange" :border="false">
-            <el-table-column type="selection" width="55" align="center"/>
+        <el-table v-loading="listLoading" :data="list" has-c :border="false" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55" align="center" />
             <el-table-column prop="name" label="收费项目名" align="left" />
             <el-table-column prop="price" label="单价" align="left" />
             <el-table-column label="数量" prop="numType" algin="left">

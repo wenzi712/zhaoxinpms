@@ -11,15 +11,13 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
                     <el-table-column prop="feeUser" label="客户姓名" align="left" />
                     <el-table-column prop="type" label="状态" align="left">
                         <template slot-scope="scope">
-                            <el-tag type="danger" v-if="scope.row.type == 'refund'">退还</el-tag>
+                            <el-tag v-if="scope.row.type == 'refund'" type="danger">退还</el-tag>
                             <el-tag v-if="scope.row.type == 'add'">预存</el-tag>
                             <el-tag v-if="scope.row.type == 'pay'">支付</el-tag>
                             <el-tag v-if="scope.row.type == 'payAdd'">找零结转</el-tag>
@@ -116,7 +114,7 @@ export default {
             });
         },
         getPayTypeOptions() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payTypeOptions = res.data.list;
             });
         },

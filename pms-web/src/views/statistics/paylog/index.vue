@@ -52,8 +52,8 @@
                     <el-table-column prop="payerName" label="付款人" align="left" />
                     <el-table-column prop="type" label="类型" align="left">
                         <template slot-scope="scope">
-                            <el-tag size="small" v-if="scope.row.type == '支付'">付款</el-tag>
-                            <el-tag size="small" type="danger" v-if="scope.row.type == '退款'">退款</el-tag>
+                            <el-tag v-if="scope.row.type == '支付'" size="small">付款</el-tag>
+                            <el-tag v-if="scope.row.type == '退款'" size="small" type="danger">退款</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column prop="payTime" label="付款时间" align="left" width="150px" />

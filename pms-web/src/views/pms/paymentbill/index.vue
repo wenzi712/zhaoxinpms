@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="商铺编号">
-                            <HouseInput  v-model="query.resourceName"/>
+                            <HouseInput v-model="query.resourceName" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -94,15 +94,15 @@
                     <el-table-column prop="receivable" label="实收金额" align="left" />
                     <el-table-column label="付款状态" align="left">
                         <template slot-scope="scope">
-                            <el-tag size="small" v-if="scope.row.payLogId !== ''">已付款</el-tag>
-                            <el-tag size="small" type="danger" v-if="scope.row.payLogId === ''">未付款</el-tag>
+                            <el-tag v-if="scope.row.payLogId !== ''" size="small">已付款</el-tag>
+                            <el-tag v-if="scope.row.payLogId === ''" size="small" type="danger">未付款</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column label="退款状态" align="left">
                         <template slot-scope="scope">
-                            <el-tag size="small" v-if="scope.row.refundState === 0">未退款</el-tag>
-                            <el-tag size="small" type="danger" v-if="scope.row.refundState === 1">部分退款</el-tag>
-                            <el-tag size="small" type="danger" v-if="scope.row.refundState === 2">全部退款</el-tag>
+                            <el-tag v-if="scope.row.refundState === 0" size="small">未退款</el-tag>
+                            <el-tag v-if="scope.row.refundState === 1" size="small" type="danger">部分退款</el-tag>
+                            <el-tag v-if="scope.row.refundState === 2" size="small" type="danger">全部退款</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column prop="refundAmount" label="退款总金额" align="left" />
@@ -110,9 +110,11 @@
                     <el-table-column prop="payTime" label="缴费时间" align="left" width="150" />
                     <el-table-column label="操作" fixed="right" width="150">
                         <template slot-scope="scope">
-                            <el-button type="text" @click="addOrUpdateHandle(scope.row.id)" :disabled="scope.row.payLogId !== ''">编辑</el-button>
-                            <el-button type="text" class="JTable-delBtn" @click="handleDel(scope.row.id)" :disabled="scope.row.payLogId !== ''">删除</el-button>
-                            <el-button type="text" @click="refundHandle(scope.row.id)" :disabled="scope.row.refundState ==2 || scope.row.payLogId === ''">退款</el-button>
+                            <el-button type="text" :disabled="scope.row.payLogId !== ''" @click="addOrUpdateHandle(scope.row.id)">编辑</el-button>
+                            <el-button type="text" class="JTable-delBtn" :disabled="scope.row.payLogId !== ''" @click="handleDel(scope.row.id)">删除</el-button>
+                            <el-button type="text" :disabled="scope.row.refundState == 2 || scope.row.payLogId === ''" @click="refundHandle(scope.row.id)">
+                                退款
+                            </el-button>
                         </template>
                     </el-table-column>
                 </JTable>

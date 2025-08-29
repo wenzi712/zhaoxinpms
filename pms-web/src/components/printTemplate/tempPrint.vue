@@ -12,7 +12,7 @@
                             </span>
                             <h2 style="width: 60%; margin: 0 auto; line-height: 80px">{{ data.company }} 收费收据</h2>
                             <span style="display: block; position: absolute; top: 0; right: 0">
-                                <!-- 扫码支付二维码 
+                                <!-- 扫码支付二维码
                             <img src="{{= data.retData.expressQRcode}}" width="110" height="110">
                             --></span>
                         </div>

@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="设备名" prop="name">
                             <el-input v-model="queryParams.name" placeholder="请输入设备名" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -44,10 +44,10 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['park:device:add']">新增</el-button>
+                            <el-button v-hasPermi="['park:device:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="deviceList" @selection-change="handleSelectionChange">
@@ -78,10 +78,10 @@
                     -->
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['park:device:edit']">
+                            <el-button v-hasPermi="['park:device:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['park:device:remove']">
+                            <el-button v-hasPermi="['park:device:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                         </template>

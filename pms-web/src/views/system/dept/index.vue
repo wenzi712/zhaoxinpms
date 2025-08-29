@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
+        <el-form v-show="showSearch" ref="queryForm" :model="queryParams" :inline="true">
             <el-form-item label="部门名称" prop="deptName">
                 <el-input v-model="queryParams.deptName" placeholder="请输入部门名称" clearable size="small" @keyup.enter.native="handleQuery" />
             </el-form-item>
@@ -17,17 +17,17 @@
 
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:dept:add']">新增</el-button>
+                <el-button v-hasPermi="['system:dept:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
             <el-col :span="1.5">
                 <el-button type="info" plain icon="el-icon-sort" size="mini" @click="toggleExpandAll">展开/折叠</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="success" plain icon="el-icon-up" size="mini" :loading="deptLoading" @click="syncDept" v-hasPermi="['system:dept:edit']">
+                <el-button v-hasPermi="['system:dept:edit']" type="success" plain icon="el-icon-up" size="mini" :loading="deptLoading" @click="syncDept">
                     同步部门到企业微信
                 </el-button>
             </el-col>
-            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+            <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
         <el-table
@@ -52,15 +52,15 @@
             </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']">修改</el-button>
-                    <el-button size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']">新增</el-button>
+                    <el-button v-hasPermi="['system:dept:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+                    <el-button v-hasPermi="['system:dept:add']" size="mini" type="text" icon="el-icon-plus" @click="handleAdd(scope.row)">新增</el-button>
                     <el-button
                         v-if="scope.row.parentId != 0"
+                        v-hasPermi="['system:dept:remove']"
                         size="mini"
                         type="text"
                         icon="el-icon-delete"
                         @click="handleDelete(scope.row)"
-                        v-hasPermi="['system:dept:remove']"
                     >
                         删除
                     </el-button>
@@ -72,7 +72,7 @@
         <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                 <el-row>
-                    <el-col :span="24" v-if="form.parentId !== 0">
+                    <el-col v-if="form.parentId !== 0" :span="24">
                         <el-form-item label="上级部门" prop="parentId">
                             <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
                         </el-form-item>
@@ -186,10 +186,9 @@ export default {
         syncDept() {
             this.deptLoading = true;
             syncDept().then(res => {
-                
                 this.$modal.msgSuccess('同步数据成功');
                 this.deptLoading = false;
-            })
+            });
         },
         /** 查询部门列表 */
         getList() {

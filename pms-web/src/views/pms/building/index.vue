@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="商铺区域" prop="block">
                             <el-select v-model="queryParams.block" placeholder="请选择商业区" clearable :style="{ width: '100%' }" :multiple="false">
@@ -38,10 +38,10 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" icon="el-icon-plus" @click="handleAdd" v-hasPermi="['pms:building:add']">新增</el-button>
+                            <el-button v-hasPermi="['pms:building:add']" type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="buildingList" @selection-change="handleSelectionChange">
@@ -51,10 +51,10 @@
                     <el-table-column label="编号" align="center" prop="number" />
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['pms:building:edit']">
+                            <el-button v-hasPermi="['pms:building:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['pms:building:remove']">
+                            <el-button v-hasPermi="['pms:building:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                         </template>
@@ -69,7 +69,7 @@
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body :close-on-click-modal="false">
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                 <el-form-item label="商业区" prop="block">
-                    <el-select :disabled="form.id" v-model="form.block" placeholder="请选择商业区" clearable :style="{ width: '100%' }" :multiple="false">
+                    <el-select v-model="form.block" :disabled="form.id" placeholder="请选择商业区" clearable :style="{ width: '100%' }" :multiple="false">
                         <el-option
                             v-for="(item, index) in areaOptions"
                             :key="index"
@@ -80,7 +80,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="编号" prop="number">
-                    <el-input :disabled="form.id" v-model="form.number" placeholder="请输入编号" />
+                    <el-input v-model="form.number" :disabled="form.id" placeholder="请输入编号" />
                 </el-form-item>
                 <el-form-item label="楼栋名" prop="name">
                     <el-input v-model="form.name" placeholder="请输入楼栋名" />

@@ -1,12 +1,5 @@
 <template>
-    <el-dialog
-        :title="'合同撤销'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        lock-scroll
-        width="800px"
-    >
+    <el-dialog :title="'合同撤销'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" lock-scroll width="800px">
         <div class="box">
             <el-tabs v-model="activeName">
                 <el-tab-pane label="未完成的缴费单" name="unpaiedList">
@@ -29,7 +22,7 @@
 
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="danger" @click="dataFormSubmit()" v-if="!isDetail">确定收回</el-button>
+            <el-button v-if="!isDetail" type="danger" @click="dataFormSubmit()">确定收回</el-button>
         </span>
     </el-dialog>
 </template>

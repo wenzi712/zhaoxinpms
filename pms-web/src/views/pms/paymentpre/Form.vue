@@ -3,17 +3,17 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <el-col :span="24">
                     <el-form-item label="编号" prop="resourceName">
-                        <HouseInput  v-model="dataForm.resourceName"/>
+                        <HouseInput v-model="dataForm.resourceName" />
                         <el-button type="primary" @click="searchHouse()">搜索</el-button>
                     </el-form-item>
                 </el-col>
@@ -36,7 +36,7 @@
                         <el-radio v-model="dataForm.useFeeItem" label="0">所有收费项</el-radio>
                     </el-form-item>
                 </el-col>
-                <el-col :span="24" v-if="dataForm.useFeeItem == '1'">
+                <el-col v-if="dataForm.useFeeItem == '1'" :span="24">
                     <el-form-item label="收费项目" prop="feeItemId">
                         <el-select v-model="dataForm.feeItemId" placeholder="请选择" clearable :style="{ width: '100%' }" :multiple="false">
                             <el-option
@@ -87,7 +87,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -97,7 +97,7 @@ import { listPaymentMethod } from '@/api/payment/paymentMethod';
 import HouseInput from '@/components/HouseInput';
 
 export default {
-    components: {HouseInput},
+    components: { HouseInput },
     props: [],
     data() {
         return {
@@ -175,7 +175,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 operateTime: [
@@ -215,7 +215,7 @@ export default {
                 });
         },
         getpayTypeOptions() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payTypeOptions = res.data.list;
             });
         },

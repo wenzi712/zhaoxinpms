@@ -1,82 +1,58 @@
-/**
- *Copyright: Copyright (c) 2020
- *Author:JakHuang
- *Version 1.0 
- *Title: form-generator/Element UI表单设计及代码生成器 
- *GitHub: https://github.com/JakHuang/form-generator
- */
- <template>
-  <div class="icon-dialog">
-    <el-dialog
-      v-bind="$attrs"
-      width="980px"
-      :modal-append-to-body="false"
-      v-on="$listeners"
-      @open="onOpen"
-      @close="onClose"
-    >
-      <div slot="title">
-        选择图标
-        <el-input
-          v-model="key"
-          size="mini"
-          :style="{width: '260px'}"
-          placeholder="请输入图标名称"
-          prefix-icon="el-icon-search"
-          clearable
-        />
-      </div>
-      <ul class="icon-ul">
-        <li
-          v-for="icon in iconList"
-          :key="icon"
-          :class="active===icon?'active-item':''"
-          @click="onSelect(icon)"
-        >
-          <i :class="icon" />
-          <div>{{ icon }}</div>
-        </li>
-      </ul>
-    </el-dialog>
-  </div>
+/** *Copyright: Copyright (c) 2020 *Author:JakHuang *Version 1.0 *Title: form-generator/Element UI表单设计及代码生成器 *GitHub:
+https://github.com/JakHuang/form-generator */
+<template>
+    <div class="icon-dialog">
+        <el-dialog v-bind="$attrs" width="980px" :modal-append-to-body="false" v-on="$listeners" @open="onOpen" @close="onClose">
+            <div slot="title">
+                选择图标
+                <el-input v-model="key" size="mini" :style="{ width: '260px' }" placeholder="请输入图标名称" prefix-icon="el-icon-search" clearable />
+            </div>
+            <ul class="icon-ul">
+                <li v-for="icon in iconList" :key="icon" :class="active === icon ? 'active-item' : ''" @click="onSelect(icon)">
+                    <i :class="icon" />
+                    <div>{{ icon }}</div>
+                </li>
+            </ul>
+        </el-dialog>
+    </div>
 </template>
 <script>
-import iconList from './utils/icon.json'
+import iconList from './utils/icon.json';
 
-const originList = iconList.map(name => `el-icon-${name}`)
+const originList = iconList.map(name => `el-icon-${name}`);
 
 export default {
-  inheritAttrs: false,
-  props: ['current'],
-  data() {
-    return {
-      iconList: originList,
-      active: null,
-      key: ''
-    }
-  },
-  watch: {
-    key(val) {
-      if (val) {
-        this.iconList = originList.filter(name => name.indexOf(val) > -1)
-      } else {
-        this.iconList = originList
-      }
-    }
-  },
-  methods: {
-    onOpen() {
-      this.active = this.current
-      this.key = ''
+    inheritAttrs: false,
+    props: ['current'],
+    data() {
+        return {
+            iconList: originList,
+            active: null,
+            key: '',
+        };
     },
-    onClose() {},
-    onSelect(icon) {
-      this.active = icon
-      this.$emit('select', icon)
-      this.$emit('update:visible', false)
-    }
-  }
-}
+    watch: {
+        key(val) {
+            if (val) {
+                this.iconList = originList.filter(name => name.indexOf(val) > -1);
+            } else {
+                this.iconList = originList;
+            }
+        },
+    },
+    methods: {
+        onOpen() {
+            this.active = this.current;
+            this.key = '';
+        },
+        onClose() {},
+        onSelect(icon) {
+            this.active = icon;
+            this.$emit('select', icon);
+            this.$emit('update:visible', false);
+        },
+    },
+};
 </script>
 <style lang="stylus" scoped>
 .icon-ul {

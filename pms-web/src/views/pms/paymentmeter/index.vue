@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="编号">
-                            <HouseInput  v-model="query.resourceName"/>
+                            <HouseInput v-model="query.resourceName" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">

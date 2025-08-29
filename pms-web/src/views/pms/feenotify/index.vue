@@ -5,10 +5,10 @@
             <el-col :span="5" :xs="24" style="background-color: white">
                 <div class="head-container" style="padding: 20px">
                     <el-tree
+                        ref="tree"
                         :data="buildings"
                         :props="defaultProps"
                         :expand-on-click-node="false"
-                        ref="tree"
                         default-expand-all
                         @node-click="handleNodeClick"
                     />

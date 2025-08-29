@@ -1,15 +1,15 @@
 <template>
     <el-autocomplete
-        popper-class="my-autocomplete"
         v-model="content"
+        popper-class="my-autocomplete"
         :fetch-suggestions="querySearch"
         placeholder="商铺完整编号"
         :trigger-on-focus="false"
+        :style="customStyle"
         @change="onEditorChange($event)"
         @select="handleSelect"
-        :style="customStyle"
     >
-        <i class="el-icon-edit el-input__icon" slot="suffix" @click="handleIconClick"></i>
+        <i slot="suffix" class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
         <template slot-scope="{ item }">
             <div v-if="type === 'contract'">
                 <div class="name">编号：{{ item.resourceName }}</div>
@@ -66,12 +66,13 @@ export default {
     },
     watch: {
         value: {
-            immediate: true,    // 这句重要
-            handler (val) {
+            immediate: true, // 这句重要
+            handler(val) {
                 this.content = val;
-            }
-        }
+            },
+        },
     },
+    mounted() {},
     methods: {
         querySearch(queryString, cb) {
             if (this.type === 'contract') {
@@ -107,13 +108,13 @@ export default {
             }
         },
         handleSelect(item) {
-            if(this.type === 'house'){
+            if (this.type === 'house') {
                 this.content = item.name;
             }
-            if(this.type === 'contract'){
+            if (this.type === 'contract') {
                 this.content = item.resourceName;
             }
-            
+
             this.$emit('input', this.content);
         },
         handleIconClick(ev) {
@@ -124,6 +125,5 @@ export default {
             this.$emit('input', this.content);
         },
     },
-    mounted() {},
 };
 </script>

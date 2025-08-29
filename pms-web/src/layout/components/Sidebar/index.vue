@@ -1,36 +1,25 @@
 <template>
-    <div :class="{'has-logo':showLogo}">
+    <div :class="{ 'has-logo': showLogo }">
         <logo v-if="showLogo" :collapse="isCollapse" />
         <el-scrollbar :class="settings.sideTheme" wrap-class="scrollbar-wrapper">
-            <el-menu
-                :default-active="activeMenu"
-                :collapse="isCollapse"
-                :unique-opened="true"
-                :collapse-transition="false"
-                mode="vertical"
-            >
-                <sidebar-item
-                    v-for="(route, index) in sidebarRouters"
-                    :key="route.path  + index"
-                    :item="route"
-                    :base-path="route.path"
-                />
+            <el-menu :default-active="activeMenu" :collapse="isCollapse" :unique-opened="true" :collapse-transition="false" mode="vertical">
+                <sidebar-item v-for="(route, index) in sidebarRouters" :key="route.path + index" :item="route" :base-path="route.path" />
             </el-menu>
         </el-scrollbar>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-import Logo from "./Logo";
-import SidebarItem from "./SidebarItem";
-import variables from "@/assets/styles/variables.scss";
+import { mapGetters, mapState } from 'vuex';
+import Logo from './Logo';
+import SidebarItem from './SidebarItem';
+import variables from '@/assets/styles/variables.scss';
 
 export default {
     components: { SidebarItem, Logo },
     computed: {
-        ...mapState(["settings"]),
-        ...mapGetters(["sidebarRouters", "sidebar"]),
+        ...mapState(['settings']),
+        ...mapGetters(['sidebarRouters', 'sidebar']),
         activeMenu() {
             const route = this.$route;
             const { meta, path } = route;
@@ -48,12 +37,11 @@ export default {
         },
         isCollapse() {
             return !this.sidebar.opened;
-        }
-    }
+        },
+    },
 };
 </script>
-<style lang="scss" >
-@import "~@/assets/styles/variables.scss";
-@import "~@/assets/styles/sidebar.scss";
-
+<style lang="scss">
+@import '~@/assets/styles/variables.scss';
+@import '~@/assets/styles/sidebar.scss';
 </style>

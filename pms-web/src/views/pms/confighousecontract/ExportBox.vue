@@ -8,9 +8,9 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="导出字段">
-                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
                 <el-checkbox-group v-model="columns" @change="handleCheckedChange">
-                    <el-checkbox v-for="item in columnList" :label="item.prop" :key="item.prop">
+                    <el-checkbox v-for="item in columnList" :key="item.prop" :label="item.prop">
                         {{ item.label }}
                     </el-checkbox>
                 </el-checkbox-group>

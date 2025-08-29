@@ -28,7 +28,7 @@
                 <JTable ref="JTable" v-loading="listLoading" :data="list" style="width: 100%" :summary-method="getSummaries" show-summary>
                     <el-table-column prop="resourceName" label="编号" align="center" />
                     <el-table-column prop="total" label="收款金额" align="center" width="100px" />
-                    <el-table-column align="center" v-for="(item, index) in head" :key="index" :label="item.name" :property="item.id">
+                    <el-table-column v-for="(item, index) in head" :key="index" align="center" :label="item.name" :property="item.id">
                         <el-table-column
                             v-for="(childItem, index) in item.list"
                             :key="index"
@@ -66,25 +66,23 @@ export default {
             },
             list: [],
             listLoading: true,
-            head: [
-                
-            ],
-            houseFeeHead: { 
-                name: '常规收费项', 
+            head: [],
+            houseFeeHead: {
+                name: '常规收费项',
             },
-            depositFeeHead: { 
-                name: '押金类收费项', 
+            depositFeeHead: {
+                name: '押金类收费项',
             },
-            tempFeeHead: { 
-                name: '临时收费项', 
+            tempFeeHead: {
+                name: '临时收费项',
             },
-            preFeeHead: { 
-                name: '预存款', 
+            preFeeHead: {
+                name: '预存款',
                 list: [
                     { name: '收款', id: 'add' },
                     { name: '支付', id: 'pay' },
                     { name: '找零结转', id: 'payAdd' },
-                ] 
+                ],
             },
             pickerVal: [],
             pickerOptions: {
@@ -151,13 +149,13 @@ export default {
                 this.houseFeeHead.list = res.data.head.houseFeeHead;
                 this.tempFeeHead.list = res.data.head.tempFeeHead;
                 this.depositFeeHead.list = res.data.head.depositFeeHead;
-                if(this.houseFeeHead.list.length > 0){
+                if (this.houseFeeHead.list.length > 0) {
                     this.head.push(this.houseFeeHead);
                 }
-                if(this.tempFeeHead.list.length > 0){
+                if (this.tempFeeHead.list.length > 0) {
                     this.head.push(this.tempFeeHead);
                 }
-                if(this.depositFeeHead.list.length > 0){
+                if (this.depositFeeHead.list.length > 0) {
                     this.head.push(this.depositFeeHead);
                 }
                 this.head.push(this.preFeeHead);

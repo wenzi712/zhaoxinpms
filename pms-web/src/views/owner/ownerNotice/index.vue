@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="公告标题" prop="noticeTitle">
                             <el-input v-model="queryParams.noticeTitle" placeholder="请输入公告标题" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -34,51 +34,51 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['owner:ownerNotice:add']">
+                            <el-button v-hasPermi="['owner:ownerNotice:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">
                                 新增
                             </el-button>
                         </el-col>
                         <el-col :span="1.5">
                             <el-button
+                                v-hasPermi="['owner:ownerNotice:edit']"
                                 type="success"
                                 plain
                                 icon="el-icon-edit"
                                 size="mini"
                                 :disabled="single"
                                 @click="handleUpdate"
-                                v-hasPermi="['owner:ownerNotice:edit']"
                             >
                                 修改
                             </el-button>
                         </el-col>
                         <el-col :span="1.5">
                             <el-button
+                                v-hasPermi="['owner:ownerNotice:remove']"
                                 type="danger"
                                 plain
                                 icon="el-icon-delete"
                                 size="mini"
                                 :disabled="multiple"
                                 @click="handleDelete"
-                                v-hasPermi="['owner:ownerNotice:remove']"
                             >
                                 删除
                             </el-button>
                         </el-col>
                         <el-col :span="1.5">
                             <el-button
+                                v-hasPermi="['owner:ownerNotice:export']"
                                 type="warning"
                                 plain
                                 icon="el-icon-download"
                                 size="mini"
                                 :loading="exportLoading"
                                 @click="handleExport"
-                                v-hasPermi="['owner:ownerNotice:export']"
                             >
                                 导出
                             </el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="ownerNoticeList" @selection-change="handleSelectionChange">
@@ -98,13 +98,13 @@
                             <dict-tag :options="dict.type.owner_notice_state" :value="scope.row.status" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="发布时间" align="center" prop="publishTime"/>
+                    <el-table-column label="发布时间" align="center" prop="publishTime" />
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['owner:ownerNotice:edit']">
+                            <el-button v-hasPermi="['owner:ownerNotice:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['owner:ownerNotice:remove']">
+                            <el-button v-hasPermi="['owner:ownerNotice:remove']" size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">
                                 删除
                             </el-button>
                         </template>
@@ -119,7 +119,7 @@
         <el-dialog class="Jdialog Jdialog_center" :title="title" :visible.sync="open" width="500px" append-to-body @open="doFocus">
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                 <el-form-item label="公告标题" prop="noticeTitle">
-                    <el-input v-model="form.noticeTitle" ref="mark" placeholder="请输入公告标题" maxlength="30" show-word-limit />
+                    <el-input ref="mark" v-model="form.noticeTitle" placeholder="请输入公告标题" maxlength="30" show-word-limit />
                 </el-form-item>
                 <el-form-item label="公告类型" prop="noticeType">
                     <el-select v-model="form.noticeType" placeholder="请选择公告类型">
@@ -132,9 +132,9 @@
                 </el-form-item>
                 <el-form-item label="公告描述" prop="noticeSubTitle">
                     <el-input
+                        v-model="form.noticeSubTitle"
                         type="textarea"
                         :autosize="{ minRows: 2, maxRows: 4 }"
-                        v-model="form.noticeSubTitle"
                         placeholder="请输入公告描述"
                         maxlength="200"
                         show-word-limit
@@ -275,7 +275,6 @@ export default {
             this.$nextTick(function () {
                 this.$refs.mark.focus();
             });
-            
         },
         /** 提交按钮 */
         submitForm() {

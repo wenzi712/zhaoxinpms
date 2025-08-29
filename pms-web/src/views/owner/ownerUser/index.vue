@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="真实姓名" prop="userName">
                             <el-input v-model="queryParams.userName" placeholder="请输入真实姓名" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -30,12 +30,12 @@
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8">
                         <el-col :span="1.5">
-                            <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['owner:ownerUser:add']">
+                            <el-button v-hasPermi="['owner:ownerUser:add']" type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">
                                 新增
                             </el-button>
                         </el-col>
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="ownerUserList" @selection-change="handleSelectionChange">
@@ -58,8 +58,8 @@
                     <el-table-column label="备注" align="center" prop="remark" />
                     <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" @click="handleUpdate(scope.row)" v-hasPermi="['owner:ownerUser:edit']">修改</el-button>
-                            <el-button size="mini" type="text" @click="handleShowDetail(scope.row)" v-hasPermi="['owner:ownerUser:edit']">明细</el-button>
+                            <el-button v-hasPermi="['owner:ownerUser:edit']" size="mini" type="text" @click="handleUpdate(scope.row)">修改</el-button>
+                            <el-button v-hasPermi="['owner:ownerUser:edit']" size="mini" type="text" @click="handleShowDetail(scope.row)">明细</el-button>
                         </template>
                     </el-table-column>
                 </JTable>
@@ -102,7 +102,7 @@
                 <el-button @click="cancel">取 消</el-button>
             </div>
         </el-dialog>
-        <userDetail v-if="showDetail" ref="userDetail" @close="showDetail=false"/>
+        <userDetail v-if="showDetail" ref="userDetail" @close="showDetail = false" />
     </div>
 </template>
 
@@ -111,7 +111,7 @@ import { listOwnerUser, getOwnerUser, delOwnerUser, addOwnerUser, updateOwnerUse
 import userDetail from './detail';
 export default {
     dicts: ['sys_user_sex', 'sys_normal_disable'],
-    components: {userDetail},
+    components: { userDetail },
     data() {
         return {
             // 遮罩层
@@ -194,9 +194,7 @@ export default {
                         trigger: 'blur',
                     },
                 ],
-                remark: [
-                   
-                ],
+                remark: [],
             },
         };
     },

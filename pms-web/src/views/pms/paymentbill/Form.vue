@@ -10,23 +10,22 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="编号" prop="resourceName">
-                        
-                        <HouseInput  v-model="dataForm.resourceName" :customStyle="{ width: '65%' }"/>
+                        <HouseInput v-model="dataForm.resourceName" :custom-style="{ width: '65%' }" />
                         <el-button type="primary" @click="searchHouse()">搜索</el-button>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="客户姓名" prop="feeUser">
                         <el-input
                             v-model="dataForm.feeUser"
@@ -39,7 +38,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="收费项目" prop="feeItemId">
                         <el-select
                             v-model="dataForm.feeItemId"
@@ -60,13 +59,13 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="单价" prop="price">
                         <el-input v-model="dataForm.price" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeMoney()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="开始日期" prop="beginDate">
                         <el-date-picker
                             v-model="dataForm.beginDate"
@@ -80,7 +79,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="结束日期" prop="endDate">
                         <el-date-picker
                             v-model="dataForm.endDate"
@@ -94,7 +93,7 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24" >
+                <el-col :span="24">
                     <el-form-item label="缴费限期" prop="deadline">
                         <el-date-picker
                             v-model="dataForm.deadline"
@@ -108,37 +107,37 @@
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="上次读数" prop="lastIndex">
                         <el-input v-model="dataForm.lastIndex" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeIndex()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="本次读数" prop="currentIndex">
                         <el-input v-model="dataForm.currentIndex" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeIndex()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="倍率" prop="multiple">
                         <el-input v-model="dataForm.multiple" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeIndex()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="损耗" prop="loss">
                         <el-input v-model="dataForm.loss" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeIndex()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="数量" prop="num">
                         <el-input v-model="dataForm.num" placeholder="请输入" clearable :style="{ width: '100%' }" @input="changeMoney()"></el-input>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" style="height:59px">
+                <el-col :span="12" style="height: 59px">
                     <el-form-item label="金额" prop="total">
                         <el-input v-model="dataForm.total" placeholder="请输入" clearable :style="{ width: '100%' }" :disabled="true"></el-input>
                     </el-form-item>
@@ -147,7 +146,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -156,7 +155,7 @@ import request from '@/utils/request';
 import HouseInput from '@/components/HouseInput';
 
 export default {
-    components: {HouseInput},
+    components: { HouseInput },
     props: [],
     data() {
         return {
@@ -250,7 +249,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 currentIndex: [
@@ -262,7 +261,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 multiple: [
@@ -274,7 +273,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,1})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多2位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 loss: [
@@ -286,7 +285,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 price: [
@@ -303,7 +302,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,5})|(0{1}))(\.\d{0,4})?$/,
                         message: '小数点前最多6位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 num: [
@@ -320,7 +319,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 lateFee: [
@@ -349,7 +348,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
                 total: [
@@ -366,7 +365,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,7})|(0{1}))(\.\d{0,2})?$/,
                         message: '小数点前最多8位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
             },

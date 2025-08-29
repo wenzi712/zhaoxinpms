@@ -1,15 +1,7 @@
 <template>
-    <el-dialog
-        :title="'常规收费'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        width="900px"
-        height="80%"
-        lock-scroll
-    >
+    <el-dialog :title="'常规收费'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" width="900px" height="80%" lock-scroll>
         <div class="Jflex-main" style="overflow: hidden; height: 100%; padding-bottom: 18px">
-            <JTable v-loading="listLoading" :data="fee.paymentBills" :hasNO="false" :hasC="false">
+            <JTable v-loading="listLoading" :data="fee.paymentBills" :has-n-o="false" :has-c="false">
                 <el-table-column prop="feeItemName" label="收费项名" align="left" width="150" />
                 <el-table-column prop="beginDate" label="费用开始时间" align="left" width="100" />
                 <el-table-column prop="endDate" label="费用结束时间" align="left" width="100" />
@@ -23,7 +15,7 @@
                 <el-table-column prop="receivable" label="应收金额" align="left" />
             </JTable>
             <div class="dataBoard">
-                <el-form @submit.native.prevent size="medium" :style="'width:100%'" label-width="70px" label-position="left">
+                <el-form size="medium" :style="'width:100%'" label-width="70px" label-position="left" @submit.native.prevent>
                     <el-row :gutter="16" :style="'width:100%'">
                         <el-col :span="8">
                             <div class="dataBoard-body">
@@ -105,7 +97,7 @@
                                     <p class="num">
                                         收款金额：
                                         <span style="color: #f56c6c">
-                                            <el-input placeholder="请输入" clearable :style="{ width: '50%' }" v-model="fee.payMoney" @blur="calc()"></el-input>
+                                            <el-input v-model="fee.payMoney" placeholder="请输入" clearable :style="{ width: '50%' }" @blur="calc()"></el-input>
                                         </span>
                                     </p>
                                 </div>
@@ -253,7 +245,7 @@ export default {
                 .catch(() => {});
         },
         getpayMethod() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payMethod = res.data.list;
             });
         },

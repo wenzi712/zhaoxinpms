@@ -118,8 +118,7 @@ export function getLodop(oOBJECT, oEMBED) {
                 });
             }
             if (!LODOP && CLodopJsState !== 'complete') {
-              
-                alert('打印控件没准备好，请稍后再试！')
+                alert('打印控件没准备好，请稍后再试！');
                 return;
             }
             var strAlertMessage;

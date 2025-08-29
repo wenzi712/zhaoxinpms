@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="任务ID" prop="taskId">
                             <el-input v-model="queryParams.taskId" placeholder="请输入任务ID" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -29,7 +29,7 @@
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8"></el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
                 <JTable v-loading="loading" :data="taskList" @selection-change="handleSelectionChange">
                     <el-table-column label="流程编号" align="left" prop="businessNo" />
@@ -49,7 +49,7 @@
                 <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
             </div>
         </div>
-        <AuditForm v-if="formVisible" ref="auditForm"  @close="colseForm"/>
+        <AuditForm v-if="formVisible" ref="auditForm" @close="colseForm" />
     </div>
 </template>
 

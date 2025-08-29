@@ -1,8 +1,6 @@
 <template>
     <div>
-        <el-button size="mini" type="text" icon="el-icon-edit" @click="print()">
-            模板维护
-        </el-button>
+        <el-button size="mini" type="text" icon="el-icon-edit" @click="print()">模板维护</el-button>
         <div id="print-header" ref="print-header">
             <table class="header" cellpadding="0" cellspacing="0" style="width: 99%">
                 <tr>
@@ -15,7 +13,7 @@
                             </span>
                             <h2 style="width: 60%; margin: 0 auto; line-height: 80px">{{ data.retData.supplierInfo.companyName }} 送货单</h2>
                             <span style="display: block; position: absolute; top: 0; right: 0">
-                                <!-- 二维码 
+                                <!-- 二维码
                             <img src="{{= data.retData.expressQRcode}}" width="110" height="110">
                             --></span>
                         </div>
@@ -46,7 +44,7 @@
                     </td>
                     <td>
                         <b>下单时间：</b>
-                        {{ data.retData.order.createAt}}
+                        {{ data.retData.order.createAt }}
                     </td>
                 </tr>
                 <tr>
@@ -60,7 +58,7 @@
                     </td>
                     <td>
                         <b>发货日期：</b>
-                        {{ data.retData.createAt}}
+                        {{ data.retData.createAt }}
                     </td>
                 </tr>
             </table>

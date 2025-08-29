@@ -10,13 +10,13 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="120px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <el-col :span="24">
                     <el-form-item label="资源名" prop="resourceName">
@@ -32,7 +32,7 @@
 
                 <el-col :span="24">
                     <el-form-item label="上期度数" prop="lastIndex">
-                        <el-input v-model="dataForm.lastIndex" placeholder="请输入" clearable v-on:input="calcResult" :style="{ width: '100%' }"></el-input>
+                        <el-input v-model="dataForm.lastIndex" placeholder="请输入" clearable :style="{ width: '100%' }" @input="calcResult"></el-input>
                     </el-form-item>
                 </el-col>
 
@@ -52,7 +52,7 @@
 
                 <el-col :span="24">
                     <el-form-item label="本期度数" prop="currentIndex">
-                        <el-input v-model="dataForm.currentIndex" placeholder="请输入" clearable v-on:input="calcResult" :style="{ width: '100%' }"></el-input>
+                        <el-input v-model="dataForm.currentIndex" placeholder="请输入" clearable :style="{ width: '100%' }" @input="calcResult"></el-input>
                     </el-form-item>
                 </el-col>
 
@@ -71,12 +71,12 @@
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="倍率" prop="multiple">
-                        <el-input v-model="dataForm.multiple" placeholder="请输入" clearable v-on:input="calcResult" :style="{ width: '100%' }"></el-input>
+                        <el-input v-model="dataForm.multiple" placeholder="请输入" clearable :style="{ width: '100%' }" @input="calcResult"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="损耗" prop="loss">
-                        <el-input v-model="dataForm.loss" placeholder="请输入" clearable v-on:input="calcResult" :style="{ width: '100%' }"></el-input>
+                        <el-input v-model="dataForm.loss" placeholder="请输入" clearable :style="{ width: '100%' }" @input="calcResult"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -88,7 +88,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>

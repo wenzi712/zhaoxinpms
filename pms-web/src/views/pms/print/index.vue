@@ -1,12 +1,5 @@
 <template>
-    <el-dialog
-        :title="'打印'"
-        :close-on-click-modal="false"
-        :visible.sync="visible"
-        class="Jdialog Jdialog_center"
-        width="1000px"
-        :before-close="close"
-    >
+    <el-dialog :title="'打印'" :close-on-click-modal="false" :visible.sync="visible" class="Jdialog Jdialog_center" width="1000px" :before-close="close">
         <iframe width="100%" height="100%" style="min-height: 600px" :src="url" frameborder="0"></iframe>
     </el-dialog>
 </template>

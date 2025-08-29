@@ -1,6 +1,6 @@
 <template>
     <div class="Jcommon-layout">
-        <div class="Jcommon-layout-center" v-show="!formVisible">
+        <div v-show="!formVisible" class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
@@ -27,16 +27,15 @@
                         </el-tooltip>
                     </div>
                 </div>
-                <el-alert
-                    title="”报修流程“与”投诉流程“表单字段权限实现逻辑不同，一个基于流程设计器，一个自定义实现"
-                    type="success"
-                    description="">
-                </el-alert>
+                <el-alert title="”报修流程“与”投诉流程“表单字段权限实现逻辑不同，一个基于流程设计器，一个自定义实现" type="success" description=""></el-alert>
                 <JTable v-loading="listLoading" :data="list">
                     <el-table-column label="流程图标" width="100">
                         <template slot-scope="scope">
-                            <div :style="{backgroundColor: scope.row.iconBackground}" style="width:44px;height:44px;margin-left:30px;border-radius:5px;">
-                                <i :class="scope.row.icon" style="font-size: 24px;color: white;padding-left:10px;padding-top:10px;" />
+                            <div
+                                :style="{ backgroundColor: scope.row.iconBackground }"
+                                style="width: 44px; height: 44px; margin-left: 30px; border-radius: 5px"
+                            >
+                                <i :class="scope.row.icon" style="font-size: 24px; color: white; padding-left: 10px; padding-top: 10px" />
                             </div>
                         </template>
                     </el-table-column>
@@ -51,9 +50,8 @@
                 </JTable>
             </div>
         </div>
-        <Designer ref="designer"  v-if="formVisible" @refresh="refresh"/>
+        <Designer v-if="formVisible" ref="designer" @refresh="refresh" />
     </div>
-    
 </template>
 
 <script>
@@ -62,7 +60,7 @@ import JTable from '@/components/JTable';
 import Designer from '../engine/index.vue';
 
 export default {
-    components: {JTable, Designer},
+    components: { JTable, Designer },
     data() {
         return {
             showAll: false,
@@ -120,7 +118,8 @@ export default {
                     type: 'success',
                     duration: 1000,
                     onClose: () => {
-                        (this.visible = false), this.$emit('refresh', true);
+                        this.visible = false;
+                        this.$emit('refresh', true);
                     },
                 });
             });

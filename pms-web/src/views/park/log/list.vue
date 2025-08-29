@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="车牌号" prop="numberPlate">
                             <el-input v-model="queryParams.numberPlate" placeholder="请输入车牌号" clearable size="small" @keyup.enter.native="handleQuery" />
@@ -40,7 +40,7 @@
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
                     <el-row :gutter="10" class="mb8"></el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="logList" @selection-change="handleSelectionChange">

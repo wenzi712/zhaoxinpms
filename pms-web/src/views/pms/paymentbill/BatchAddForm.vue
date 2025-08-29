@@ -4,30 +4,30 @@
             <el-step title="新增规则"></el-step>
             <el-step title="数据确认"></el-step>
         </el-steps>
-        <div class="import-main" v-show="active == 1">
+        <div v-show="active == 1" class="import-main">
             <el-row :gutter="15" class="">
                 <el-form
                     ref="elForm"
+                    v-loading="loading"
                     :model="dataForm"
                     :rules="rules"
                     size="medium"
                     label-width="100px"
                     label-position="right"
                     :disabled="!!isDetail"
-                    v-loading="loading"
                 >
                     <el-col :span="24">
                         <el-form-item label="编号" prop="resourceName">
                             <el-input
+                                v-model="dataForm.resourceName"
                                 type="textarea"
                                 :autosize="{ minRows: 2, maxRows: 4 }"
                                 placeholder="多个编号以逗号隔开。例如 01-002,01-003"
-                                v-model="dataForm.resourceName"
                             ></el-input>
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="12" style="height:59px">
+                    <el-col :span="12" style="height: 59px">
                         <el-form-item label="收费项目" prop="feeItemId">
                             <el-select
                                 v-model="dataForm.feeItemId"
@@ -47,13 +47,13 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12" style="height:59px">
+                    <el-col :span="12" style="height: 59px">
                         <el-form-item label="单价" prop="price">
                             <el-input v-model="dataForm.price" placeholder="请输入" clearable :style="{ width: '100%' }"></el-input>
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="12" style="height:59px">
+                    <el-col :span="12" style="height: 59px">
                         <el-form-item label="开始日期" prop="beginDate">
                             <el-date-picker
                                 v-model="dataForm.beginDate"
@@ -67,7 +67,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="12" style="height:59px">
+                    <el-col :span="12" style="height: 59px">
                         <el-form-item label="结束日期" prop="endDate">
                             <el-date-picker
                                 v-model="dataForm.endDate"
@@ -81,7 +81,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="12" style="height:59px">
+                    <el-col :span="12" style="height: 59px">
                         <el-form-item label="缴费限期" prop="deadline">
                             <el-date-picker
                                 v-model="dataForm.deadline"
@@ -97,7 +97,7 @@
                 </el-form>
             </el-row>
         </div>
-        <div class="import-main" v-show="active == 2">
+        <div v-show="active == 2" class="import-main">
             <JTable :data="list" height="300" :summary-method="getSummaries" show-summary>
                 <el-table-column prop="resourceName" label="编号" align="left" width="100" />
                 <el-table-column prop="feeItemName" label="收费项名" align="left" width="150" />
@@ -111,8 +111,8 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button @click="dataFormSubmit()" type="primary" v-if="active == 1" :loading="btnLoading">下一步</el-button>
-            <el-button type="primary" v-if="active == 2" @click="dataFormSubmit()">确 定</el-button>
+            <el-button v-if="active == 1" type="primary" :loading="btnLoading" @click="dataFormSubmit()">下一步</el-button>
+            <el-button v-if="active == 2" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -198,7 +198,7 @@ export default {
                     {
                         pattern: /^(([1-9]{1}\d{0,5})|(0{1}))(\.\d{0,4})?$/,
                         message: '小数点前最多6位数字',
-                        trigger: 'blur'
+                        trigger: 'blur',
                     },
                 ],
             },

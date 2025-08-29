@@ -100,11 +100,7 @@
                                             </el-table>
                                         </el-tab-pane>
                                         <el-tab-pane label="待缴费信息" name="fee">
-                                            <el-table
-                                                v-loading="loading"
-                                                :data="unpaiedBills"
-                                                ref="showTable"
-                                            >
+                                            <el-table ref="showTable" v-loading="loading" :data="unpaiedBills">
                                                 <el-table-column prop="feeItemName" label="收费项名称" align="left"></el-table-column>
                                                 <el-table-column prop="beginDate" label="起收日期" align="left" />
                                                 <el-table-column prop="endDate" label="到期日期" align="left" />
@@ -115,11 +111,7 @@
                                             </el-table>
                                         </el-tab-pane>
                                         <el-tab-pane label="历史缴费信息" name="feeHistory">
-                                            <el-table
-                                                v-loading="loading"
-                                                :data="paiedBills"
-                                                ref="showTable"
-                                            >
+                                            <el-table ref="showTable" v-loading="loading" :data="paiedBills">
                                                 <el-table-column prop="feeItemName" label="收费项名称" align="left"></el-table-column>
                                                 <el-table-column prop="beginDate" label="起收日期" align="left" />
                                                 <el-table-column prop="endDate" label="到期日期" align="left" />

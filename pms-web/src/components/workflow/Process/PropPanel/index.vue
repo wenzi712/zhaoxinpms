@@ -1,17 +1,17 @@
 <template>
-    <el-drawer size="550px" class="drawer" :visible.sync="visible" :show-close="false" style="text-align: left" @close="cancel" v-if="properties">
+    <el-drawer v-if="properties" size="550px" class="drawer" :visible.sync="visible" :show-close="false" style="text-align: left" @close="cancel">
         <!-- 标题 -->
-        <header slot="title" class="header" v-if="value && value.type == 'start' && properties.title">{{ properties.title }}</header>
-        <header slot="title" class="header" v-else>
-            <span @click="titleInputVisible = true" v-show="!titleInputVisible" style="cursor: pointer">
+        <header v-if="value && value.type == 'start' && properties.title" slot="title" class="header">{{ properties.title }}</header>
+        <header v-else slot="title" class="header">
+            <span v-show="!titleInputVisible" style="cursor: pointer" @click="titleInputVisible = true">
                 {{ properties.title }}
                 <i class="el-icon-edit"></i>
             </span>
             <el-input
-                size="mini"
-                v-model="properties.title"
                 v-show="titleInputVisible"
+                v-model="properties.title"
                 v-clickoutside="_ => (titleInputVisible = false)"
+                size="mini"
                 style="z-index: 9; max-width: 200px"
             ></el-input>
             <el-select v-if="isConditionNode()" v-model="properties.priority" size="mini" class="priority-select">
@@ -20,7 +20,7 @@
         </header>
 
         <!-- 条件  -->
-        <section class="condition-pane pd-10" v-if="value && isConditionNode()">
+        <section v-if="value && isConditionNode()" class="condition-pane pd-10">
             <el-form size="medium" label-width="100px" label-position="top">
                 <el-form-item label="条件说明" prop="condition">
                     <el-input v-model="conditionLabel" placeholder="条件说明" :maxlength="100" :style="{ width: '100%' }"></el-input>
@@ -40,7 +40,7 @@
         </section>
 
         <!-- 发起人 -->
-        <section class="approver-pane" style="height: 100%" v-if="value && isStartNode()">
+        <section v-if="value && isStartNode()" class="approver-pane" style="height: 100%">
             <el-tabs v-model="activeName" style="height: 100%" class="pane-tab">
                 <el-tab-pane label="设置发起人">
                     <h3 style="padding-left: 20px">所有人都可以发起流程</h3>
@@ -63,11 +63,11 @@
         </section>
 
         <!-- 审批人 -->
-        <section class="approver-pane" style="height: 100%" v-if="value && isApproverNode()">
+        <section v-if="value && isApproverNode()" class="approver-pane" style="height: 100%">
             <el-tabs v-model="activeName" class="pane-tab">
                 <el-tab-pane :label="'设置' + (value.type === 'approver' ? '审批人' : '发起人')" name="config">
                     <!-- 开始节点 -->
-                    <el-row style="padding: 10px" v-if="value.type === 'start'">
+                    <el-row v-if="value.type === 'start'" style="padding: 10px">
                         <el-col :span="4" style="font-size: 12px">发起人</el-col>
                         <el-col :span="18" style="padding-left: 12px"></el-col>
                     </el-row>
@@ -75,7 +75,7 @@
                     <div v-else-if="value.type === 'approver'">
                         <div style="padding: 12px">
                             <el-radio-group v-model="approverForm.assigneeType" style="line-height: 32px" @change="resetOrgColl">
-                                <el-radio v-for="item in assigneeTypeOptions" :label="item.value" :key="item.value" class="radio-item">
+                                <el-radio v-for="item in assigneeTypeOptions" :key="item.value" :label="item.value" class="radio-item">
                                     {{ item.label }}
                                 </el-radio>
                             </el-radio-group>
@@ -86,23 +86,23 @@
                                 <org-select
                                     v-if="approverForm.assigneeType === 'role'"
                                     ref="approver-role-org"
-                                    buttonType="button"
                                     v-model="approverForm.approverRoles"
+                                    button-type="button"
                                     title="添加角色"
                                     type="role"
-                                    @change="onOrgChange"
                                     class="mb-10"
+                                    @change="onOrgChange"
                                 />
                                 <org-select
                                     v-if="approverForm.assigneeType === 'user'"
                                     ref="approver-user-org"
-                                    buttonType="button"
                                     v-model="approverForm.approvers"
+                                    button-type="button"
                                     title="添加用户"
                                     @change="onOrgChange"
                                 />
                                 <el-form size="medium" label-width="100px" label-position="top">
-                                    <el-form-item label="activiti表达式" prop="expression" v-if="approverForm.assigneeType === 'input'">
+                                    <el-form-item v-if="approverForm.assigneeType === 'input'" label="activiti表达式" prop="expression">
                                         <el-input
                                             v-model="approverForm.expression"
                                             type="textarea"
@@ -120,10 +120,11 @@
                                     <el-form-item label="是否可驳回" prop="counterSign">
                                         <el-radio v-model="approverForm.rejectConfig" label="0">不可驳回</el-radio>
                                         <el-radio v-model="approverForm.rejectConfig" label="1">可驳回</el-radio>
-                                        <el-input v-model="approverForm.rejectNodeName" 
-                                            v-if="approverForm.rejectConfig == '1'" 
+                                        <el-input
+                                            v-if="approverForm.rejectConfig == '1'"
+                                            v-model="approverForm.rejectNodeName"
                                             placeholder="请输入要回到到的节点名"
-                                            style="width:50%"
+                                            style="width: 50%"
                                         />
                                     </el-form-item>
                                 </el-form>
@@ -154,7 +155,7 @@
                     <div>
                         <div style="padding: 12px">
                             <el-radio-group v-model="approverForm.assigneeType" style="line-height: 32px" @change="resetOrgColl">
-                                <el-radio v-for="item in copyAssigneeTypeOptions" :label="item.value" :key="item.value" class="radio-item">
+                                <el-radio v-for="item in copyAssigneeTypeOptions" :key="item.value" :label="item.value" class="radio-item">
                                     {{ item.label }}
                                 </el-radio>
                             </el-radio-group>
@@ -164,23 +165,23 @@
                                 <org-select
                                     v-if="approverForm.assigneeType === 'role'"
                                     ref="approver-role-org"
-                                    buttonType="button"
                                     v-model="approverForm.approverRoles"
+                                    button-type="button"
                                     title="添加角色"
                                     type="role"
-                                    @change="onOrgChange"
                                     class="mb-10"
+                                    @change="onOrgChange"
                                 />
                                 <org-select
                                     v-if="approverForm.assigneeType === 'user'"
                                     ref="approver-user-org"
-                                    buttonType="button"
                                     v-model="approverForm.approvers"
+                                    button-type="button"
                                     title="添加用户"
                                     @change="onOrgChange"
                                 />
                                 <el-form size="medium" label-width="100px" label-position="top">
-                                    <el-form-item label="activiti表达式" prop="expression" v-if="approverForm.assigneeType === 'input'">
+                                    <el-form-item v-if="approverForm.assigneeType === 'input'" label="activiti表达式" prop="expression">
                                         <el-input
                                             v-model="approverForm.expression"
                                             type="textarea"
@@ -221,6 +222,9 @@ const defaultApproverForm = {
     rejectNodeName: '',
 };
 export default {
+    directives: {
+        Clickoutside,
+    },
     props: [/*当前节点数据*/ 'value', /*整个节点数据*/ 'processData'],
     data() {
         return {
@@ -281,8 +285,27 @@ export default {
             return this.$store.state.designer.formItemList;
         },
     },
-    directives: {
-        Clickoutside,
+    watch: {
+        visible(val) {
+            if (!val) {
+                this.approverForm = JSON.parse(JSON.stringify(defaultApproverForm)); // 重置数据为默认状态
+                return;
+            }
+            this.isStartNode() && this.initStartNodeData();
+            this.isApproverNode() && this.initApproverNodeData();
+            this.isConditionNode() && this.initConditionNodeData();
+            this.isCopyNode() && this.initCopyNodeData();
+        },
+
+        value(newVal) {
+            if (newVal && newVal.properties) {
+                this.visible = true;
+                this.properties = JSON.parse(JSON.stringify(newVal.properties));
+                if (this.properties) {
+                    NodeUtils.isConditionNode(newVal) && this.getPriorityLength();
+                }
+            }
+        },
     },
     methods: {
         getFormOperates() {
@@ -575,28 +598,6 @@ export default {
             this.condition = this.value.properties && this.value.properties.condition;
             this.conditionLabel = this.value.properties && this.value.properties.conditionLabel;
             this.activeName = 'config';
-        },
-    },
-    watch: {
-        visible(val) {
-            if (!val) {
-                this.approverForm = JSON.parse(JSON.stringify(defaultApproverForm)); // 重置数据为默认状态
-                return;
-            }
-            this.isStartNode() && this.initStartNodeData();
-            this.isApproverNode() && this.initApproverNodeData();
-            this.isConditionNode() && this.initConditionNodeData();
-            this.isCopyNode() && this.initCopyNodeData();
-        },
-
-        value(newVal) {
-            if (newVal && newVal.properties) {
-                this.visible = true;
-                this.properties = JSON.parse(JSON.stringify(newVal.properties));
-                if (this.properties) {
-                    NodeUtils.isConditionNode(newVal) && this.getPriorityLength();
-                }
-            }
         },
     },
 };

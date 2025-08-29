@@ -42,7 +42,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                   <el-button type="text" @click="select(scope.row)" size="mini">选择业主</el-button>
+                    <el-button type="text" size="mini" @click="select(scope.row)">选择业主</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -94,7 +94,7 @@ export default {
         },
         refresh() {
             this.query.userName = '';
-            this.query.phonenumber = "";
+            this.query.phonenumber = '';
             this.init();
         },
         select(data) {

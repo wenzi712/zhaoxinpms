@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="模板标题" prop="templateName">
                             <el-input
@@ -51,7 +51,7 @@
                         </el-col>
                         -->
                     </el-row>
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="smsTemplateList" @selection-change="handleSelectionChange">
@@ -59,11 +59,11 @@
                     <el-table-column label="模板标题" align="center" prop="templateName" />
                     <el-table-column label="模板CODE" align="center" prop="templateCode" />
                     <el-table-column label="模板类型：1短信 2邮件 3微信" align="center" prop="templateType" />
-                    <el-table-column label="模板内容" align="center" prop="templateContent" width="500"/>
-                     <!--
+                    <el-table-column label="模板内容" align="center" prop="templateContent" width="500" />
+                    <!--
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                           
+
                             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['payment:smsTemplate:edit']">
                                 修改
                             </el-button>
@@ -76,7 +76,7 @@
                             >
                                 删除
                             </el-button>
-                           
+
                         </template>
                     </el-table-column>
                      -->

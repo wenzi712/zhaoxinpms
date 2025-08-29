@@ -8,16 +8,16 @@
         <el-row :gutter="15" class="stepRow">
             <el-form
                 ref="elForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <template>
-                    <el-col :span="24" v-show="stepActive == 0">
+                    <el-col v-show="stepActive == 0" :span="24">
                         <el-form-item label="商业区" prop="area">
                             <el-select
                                 v-model="dataForm.blockCode"
@@ -31,7 +31,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" v-show="stepActive == 0">
+                    <el-col v-show="stepActive == 0" :span="24">
                         <el-form-item label="编号" prop="name">
                             <el-input
                                 v-model="dataForm.name"
@@ -43,7 +43,7 @@
                             ></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" v-show="stepActive == 0">
+                    <el-col v-show="stepActive == 0" :span="24">
                         <el-form-item label="类别" prop="contractType">
                             <el-select
                                 v-model="dataForm.contractType"
@@ -51,14 +51,14 @@
                                 clearable
                                 :style="{ width: '100%' }"
                                 :multiple="false"
-                                :disabled="this.dataForm.contractId?true:false"
+                                :disabled="this.dataForm.contractId ? true : false"
                                 @input="getConfigFeeSetting"
                             >
                                 <el-option v-for="(item, index) in contractTypeOptions" :key="index" :label="item.fullName" :value="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 0">
+                    <el-col v-show="stepActive == 0" :span="24" style="height: 59px">
                         <el-form-item label="开始时间" prop="beginDate" :style="{ height: '33px' }">
                             <el-date-picker
                                 v-model="dataForm.beginDate"
@@ -71,7 +71,7 @@
                             ></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" v-if="this.dataForm.contractType == 'rented'" style="height: 59px" v-show="stepActive == 0">
+                    <el-col v-if="this.dataForm.contractType == 'rented'" v-show="stepActive == 0" :span="24" style="height: 59px">
                         <el-form-item label="出租时间" prop="period" :style="{ height: '33px' }">
                             <el-input v-model="dataForm.period" placeholder="出租时间" clearable :style="{ width: '100%' }">
                                 <template slot="append">月</template>
@@ -79,7 +79,7 @@
                         </el-form-item>
                     </el-col>
 
-                    <el-col :span="24" v-if="this.dataForm.contractType == 'rented'" style="height: 59px" v-show="stepActive == 0">
+                    <el-col v-if="this.dataForm.contractType == 'rented'" v-show="stepActive == 0" :span="24" style="height: 59px">
                         <el-form-item label="租金" prop="rentFee" :style="{ height: '33px' }">
                             <el-input v-model="dataForm.rentFee" placeholder="租金" clearable :style="{ width: '100%' }">
                                 <template slot="append">元</template>
@@ -88,7 +88,7 @@
                     </el-col>
                 </template>
                 <template v-if="stepActive >= 1">
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="客户公司" prop="company">
                             <el-row>
                                 <el-col :span="16">
@@ -107,7 +107,7 @@
                             </el-row>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="联系人姓名" prop="userName">
                             <el-row>
                                 <el-col :span="24">
@@ -123,7 +123,7 @@
                             </el-row>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="身份证" prop="userIdcard">
                             <el-input
                                 v-model="dataForm.userIdcard"
@@ -135,14 +135,14 @@
                             ></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="性别" prop="userGender">
                             <el-select v-model="dataForm.userGender" placeholder="请选择性别" :disabled="true">
                                 <el-option v-for="dict in dict.type.sys_user_sex" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="联系方式" prop="userPhone">
                             <el-input
                                 v-model="dataForm.userPhone"
@@ -154,18 +154,12 @@
                             ></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="从事的行业" prop="userTrade">
-                           <el-input
-                                v-model="dataForm.userTrade"
-                                placeholder="请输入"
-                                :maxlength="13"
-                                clearable
-                                :style="{ width: '100%' }"
-                            ></el-input>
+                            <el-input v-model="dataForm.userTrade" placeholder="请输入" :maxlength="13" clearable :style="{ width: '100%' }"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" style="height: 59px" v-show="stepActive == 1">
+                    <el-col v-show="stepActive == 1" :span="24" style="height: 59px">
                         <el-form-item label="详细说明" prop="userTradeDetail">
                             <el-input v-model="dataForm.userTradeDetail" :maxlength="150" placeholder="请输入" clearable :style="{ width: '100%' }"></el-input>
                         </el-form-item>
@@ -173,14 +167,14 @@
                 </template>
             </el-form>
         </el-row>
-        <div class="box" v-show="stepActive == 2" style="margin: 0 20px">
+        <div v-show="stepActive == 2" class="box" style="margin: 0 20px">
             <el-tabs v-model="activeName">
                 <el-tab-pane label="设置收费项目" name="contractFees">
                     <el-table :data="dataForm.contractFees" size="mini">
                         <el-table-column type="index" width="50" label="序号" align="center" />
                         <el-table-column prop="name" label="收费项名" />
                         <el-table-column prop="price" label="单价" />
-                        <!-- 功能未开放 
+                        <!-- 功能未开放
                         <el-table-column prop="beginDate" label="计费开始时间" width="220px">
                             <template slot-scope="scope">
                                 <el-date-picker
@@ -207,22 +201,22 @@
                                 ></el-date-picker>
                             </template>
                         </el-table-column>-->
-                        <el-table-column label="操作" width="50" v-if="!setting.readonly">
+                        <el-table-column v-if="!setting.readonly" label="操作" width="50">
                             <template slot-scope="scope">
                                 <el-button size="mini" type="text" class="JTable-delBtn" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <div class="table-actions" @click="choice" v-if="!setting.readonly">
+                    <div v-if="!setting.readonly" class="table-actions" @click="choice">
                         <el-button type="text" icon="el-icon-plus">新增收费项</el-button>
                     </div>
                 </el-tab-pane>
             </el-tabs>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button style="margin-top: 12px" @click="prev" v-if="stepActive !== 0">上一步</el-button>
-            <el-button style="margin-top: 12px" @click="next" v-if="stepActive !== 2">下一步</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail && stepActive == 2">确 定</el-button>
+            <el-button v-if="stepActive !== 0" style="margin-top: 12px" @click="prev">上一步</el-button>
+            <el-button v-if="stepActive !== 2" style="margin-top: 12px" @click="next">下一步</el-button>
+            <el-button v-if="!isDetail && stepActive == 2" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
         <Box v-if="boxVisible" ref="form" @refreshDataList="initData" />
         <SelectOwnerBox v-if="selectOwnerBoxVisible" ref="selectOwner" @select="ownerSelected" />

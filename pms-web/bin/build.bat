@@ -7,6 +7,7 @@ echo.
 cd %~dp0
 
 cd ..
+
 pnpm run build:prod
 
 pause

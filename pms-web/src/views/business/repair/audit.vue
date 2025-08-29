@@ -55,7 +55,7 @@
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="报修图片" prop="applyImg">
-                        <imageUpload v-model="dataForm.applyImg" :disabled="true" :isShowTip="false" />
+                        <imageUpload v-model="dataForm.applyImg" :disabled="true" :is-show-tip="false" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -73,28 +73,28 @@
             </el-row>
             <el-row>
                 <!--报修确认功能表单-->
-                <el-col :span="12" v-if="!isDisabled('repairUser')">
+                <el-col v-if="!isDisabled('repairUser')" :span="12">
                     <el-form-item label="维修人员" prop="repairUser">
                         <org-select
+                            v-if="!isDisabled('repairUser')"
                             ref="userSelect"
-                            buttonType="button"
                             v-model="selectedUser"
+                            button-type="button"
                             title="选择用户"
                             type="user"
-                            @change="onUserChange"
                             class="mb-10"
-                            v-if="!isDisabled('repairUser')"
+                            @change="onUserChange"
                         />
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" v-if="canShow('repairUserName')">
+                <el-col v-if="canShow('repairUserName')" :span="12">
                     <el-form-item label="维修人员" prop="repairUserName">
                         <el-input v-model="dataForm.repairUserName" placeholder="维修人员姓名" readonly :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12" v-if="canShow('repairState')">
+                <el-col v-if="canShow('repairState')" :span="12">
                     <el-form-item label="维修状态" prop="repairState">
                         <el-radio-group v-model="dataForm.repairState" size="medium" :disabled="isDisabled('repairState')">
                             <el-radio label="repairing">问题已确认，等待维修</el-radio>
@@ -118,7 +118,7 @@
             </el-row>
             <el-row>
                 <!--维修处理表单-->
-                <el-col :span="12" v-if="canShow('repairMaterialsFee')">
+                <el-col v-if="canShow('repairMaterialsFee')" :span="12">
                     <el-form-item label="维修材料费" prop="repairMaterialsFee">
                         <el-input
                             v-model="dataForm.repairMaterialsFee"
@@ -128,7 +128,7 @@
                         ></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" v-if="canShow('repairServiceFee')">
+                <el-col v-if="canShow('repairServiceFee')" :span="12">
                     <el-form-item label="维修服务费" prop="repairServiceFee">
                         <el-input
                             v-model="dataForm.repairServiceFee"
@@ -138,7 +138,7 @@
                         ></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="24" v-if="canShow('repairContent')">
+                <el-col v-if="canShow('repairContent')" :span="24">
                     <el-form-item label="维修备注" prop="repairContent">
                         <el-input
                             v-model="dataForm.repairContent"
@@ -152,19 +152,19 @@
                 </el-col>
 
                 <!--结果确认、回访表单-->
-                <el-col :span="12" v-if="canShow('returnResult')">
+                <el-col v-if="canShow('returnResult')" :span="12">
                     <el-form-item label="回访结果" prop="returnResult">
                         <el-select v-model="dataForm.returnResult" placeholder="请选择回访结果" clearable size="small" :disabled="isDisabled('returnResult')">
                             <el-option v-for="dict in dict.type.return_result" :key="dict.value" :label="dict.label" :value="dict.value" />
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="24" v-if="canShow('returnRemark')">
+                <el-col v-if="canShow('returnRemark')" :span="24">
                     <el-form-item label="回访意见" prop="returnRemark">
                         <el-input
+                            v-model="dataForm.returnRemark"
                             type="textarea"
                             :rows="3"
-                            v-model="dataForm.returnRemark"
                             placeholder="请输入回访意见"
                             clearable
                             size="small"
@@ -197,9 +197,6 @@ export default {
             formShow: false,
         };
     },
-    created() {
-        this.initData();
-    },
     computed: {
         canShow: function () {
             return function (state) {
@@ -220,7 +217,7 @@ export default {
                 if (state === 'repairContent' || state === 'repairMaterialsFee' || state === 'repairServiceFee') {
                     if (this.dataForm.repairState === 'repaired' && getWrite(this.formOperates, 'repairState') && getWrite(this.formOperates, state)) {
                         return false;
-                    } else if ( !getWrite(this.formOperates, 'repairState') && getWrite(this.formOperates, state)){
+                    } else if (!getWrite(this.formOperates, 'repairState') && getWrite(this.formOperates, state)) {
                         return false;
                     } else {
                         return true;
@@ -230,6 +227,9 @@ export default {
                 return !getWrite(this.formOperates, state);
             };
         },
+    },
+    created() {
+        this.initData();
     },
     methods: {
         initData() {

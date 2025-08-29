@@ -1,13 +1,13 @@
 <template functional>
-  <el-row class="cmp-container">
-    <el-col :span="4" class="label">{{props.title}}</el-col>
-    <el-col :span="18" >
-      <slot></slot>
-    </el-col>
-    <el-col :span="2" class="icon-wrapper">
-      <slot name="action"></slot>
-    </el-col>
-  </el-row>
+    <el-row class="cmp-container">
+        <el-col :span="4" class="label">{{ props.title }}</el-col>
+        <el-col :span="18">
+            <slot></slot>
+        </el-col>
+        <el-col :span="2" class="icon-wrapper">
+            <slot name="action"></slot>
+        </el-col>
+    </el-row>
 </template>
 <style lang="stylus" scoped>
 // 三点省略 支持单行多行

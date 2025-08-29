@@ -4,7 +4,17 @@ build/*.js
 src/assets
 # 忽略public目录下文件的语法检查
 public
-# 忽略当前目录下为js的文件的语法检查
-*.js
-# 忽略当前目录下为vue的文件的语法检查
-*.vue
+# 忽略node_modules目录
+node_modules
+# 忽略dist目录
+dist
+# 忽略coverage目录
+coverage
+# 忽略隐藏文件
+.*
+# 忽略特定的配置文件
+.eslintrc.js
+babel.config.js
+vue.config.js
+package.json
+pnpm-lock.yaml

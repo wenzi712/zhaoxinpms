@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="编号">
-                            <HouseInput  v-model="query.resourceName"/>
+                            <HouseInput v-model="query.resourceName" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -58,8 +58,8 @@
                         <el-form-item>
                             <el-button type="primary" icon="el-icon-search" @click="search()">查询</el-button>
                             <el-button icon="el-icon-refresh-right" @click="reset()">重置</el-button>
-                            <el-button type="text" icon="el-icon-arrow-down" @click="showAll = true" v-if="!showAll">展开</el-button>
-                            <el-button type="text" icon="el-icon-arrow-up" @click="showAll = false" v-else>收起</el-button>
+                            <el-button v-if="!showAll" type="text" icon="el-icon-arrow-down" @click="showAll = true">展开</el-button>
+                            <el-button v-else type="text" icon="el-icon-arrow-up" @click="showAll = false">收起</el-button>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -74,7 +74,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -82,7 +81,7 @@
                     <el-table-column prop="feeUser" label="客户姓名" align="left" />
                     <el-table-column prop="type" label="状态" align="left">
                         <template slot-scope="scope">
-                            <el-tag type="danger" v-if="scope.row.type == 'refund'">退还</el-tag>
+                            <el-tag v-if="scope.row.type == 'refund'" type="danger">退还</el-tag>
                             <el-tag v-if="scope.row.type == 'add'">预存</el-tag>
                             <el-tag v-if="scope.row.type == 'pay'">支付</el-tag>
                             <el-tag v-if="scope.row.type == 'payAdd'">找零结转</el-tag>
@@ -122,7 +121,7 @@ import PrePrint from '@/components/printTemplate/prePrint';
 import PreRefundPrint from '@/components/printTemplate/preRefundPrint';
 
 export default {
-    components: { EditForm, WithdrawForm, HouseInput,  PreRefundPrint, PrePrint },
+    components: { EditForm, WithdrawForm, HouseInput, PreRefundPrint, PrePrint },
     data() {
         return {
             showAll: false,
@@ -195,7 +194,7 @@ export default {
             });
         },
         getPayTypeOptions() {
-            listPaymentMethod({client:1}).then(res => {
+            listPaymentMethod({ client: 1 }).then(res => {
                 this.payTypeOptions = res.data.list;
             });
         },

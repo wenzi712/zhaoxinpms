@@ -10,23 +10,23 @@
         <el-row :gutter="15" class="">
             <el-form
                 ref="dataForm"
+                v-loading="loading"
                 :model="dataForm"
                 :rules="rules"
                 size="medium"
                 label-width="100px"
                 label-position="right"
                 :disabled="!!isDetail"
-                v-loading="loading"
             >
                 <el-col :span="24">
                     <el-form-item label="楼栋" prop="block">
-                         <el-cascader
+                        <el-cascader
                             v-model="dataForm.buildingSelect"
                             :options="buildings"
                             clearable
                             :style="{ width: '100%' }"
-                            @change="handleChange">
-                        </el-cascader>
+                            @change="handleChange"
+                        ></el-cascader>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -88,7 +88,7 @@
         </el-row>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" @click="dataFormSubmit()" v-if="!isDetail">确 定</el-button>
+            <el-button v-if="!isDetail" type="primary" @click="dataFormSubmit()">确 定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -250,7 +250,7 @@ export default {
                         url: '/baseconfig/House/' + this.dataForm.id,
                         method: 'get',
                     }).then(res => {
-                        res.data.buildingSelect = [res.data.block,res.data.building];
+                        res.data.buildingSelect = [res.data.block, res.data.building];
                         this.dataForm = res.data;
                         this.loading = false;
                     });

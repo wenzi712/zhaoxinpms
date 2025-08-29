@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="商铺编号">
-                            <HouseInput  v-model="query.resourceName" type="contract"/>
+                            <HouseInput v-model="query.resourceName" type="contract" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -17,7 +17,7 @@
             </el-row>
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
-                    <el-form @submit.native.prevent size="mini" :style="'width:100%'">
+                    <el-form size="mini" :style="'width:100%'" @submit.native.prevent>
                         <el-row :gutter="16" :style="'width:100%'">
                             <el-col :span="4">
                                 <el-form-item label="编号" style="margin-bottom: 0px">
@@ -26,8 +26,8 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-form-item label="商铺状态" style="margin-bottom: 0px">
-                                    <label style="color: #1890ff" v-if="contract.contractType == 'rented'">出租</label>
-                                    <label style="color: #1890ff" v-if="contract.contractType == 'selled'">出售</label>
+                                    <label v-if="contract.contractType == 'rented'" style="color: #1890ff">出租</label>
+                                    <label v-if="contract.contractType == 'selled'" style="color: #1890ff">出售</label>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="4">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="Jflex-main Jcommon-layout-main">
                     <div style="padding-left: 10px">
-                        <el-tabs v-model="activeName" @tab-click="handleClick" style="height: 100%">
+                        <el-tabs v-model="activeName" style="height: 100%" @tab-click="handleClick">
                             <el-tab-pane label="常规收费" name="first"></el-tab-pane>
                             <el-tab-pane label="临时收费" name="second"></el-tab-pane>
                             <el-tab-pane label="收取押金" name="third"></el-tab-pane>

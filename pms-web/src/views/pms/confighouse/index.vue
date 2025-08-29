@@ -5,7 +5,7 @@
                 <el-form @submit.native.prevent>
                     <el-col :span="6">
                         <el-form-item label="编号">
-                            <HouseInput  v-model="query.name" />
+                            <HouseInput v-model="query.name" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -39,7 +39,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -51,7 +50,7 @@
                         <template slot-scope="scope">{{ scope.row.buildingName }}</template>
                     </el-table-column>
                     <el-table-column prop="floor" label="楼层" align="left" />
-                    <el-table-column prop="code" label="房号" align="left"/>
+                    <el-table-column prop="code" label="房号" align="left" />
                     <el-table-column prop="buildingsquare" label="占地面积" align="left" />
                     <el-table-column prop="usesquare" label="使用面积" align="left" />
                     <el-table-column prop="rentFee" label="租金" align="left" />

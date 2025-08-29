@@ -44,7 +44,6 @@
                         <el-tooltip effect="dark" content="刷新" placement="top">
                             <el-link icon="icon-ym icon-ym-Refresh Jcommon-head-icon" :underline="false" @click="reset()" />
                         </el-tooltip>
-                        
                     </div>
                 </div>
                 <JTable v-loading="listLoading" :data="list">
@@ -96,21 +95,29 @@
                         <template slot-scope="scope">
                             <el-button
                                 type="text"
-                                @click="selled('', scope.row.resourceId, scope.row.block, scope.row.name, scope.row.contractId, scope.row.rentFee)"
                                 :disabled="scope.row.state !== 'empty'"
+                                @click="selled('', scope.row.resourceId, scope.row.block, scope.row.name, scope.row.contractId, scope.row.rentFee)"
                             >
                                 发起合同
                             </el-button>
-                            
+
                             <el-button
                                 type="text"
                                 :disabled="scope.row.state === 'empty'"
-                                @click="addOrUpdateHandle(scope.row.company, scope.row.resourceId, scope.row.block, scope.row.name, scope.row.contractId, scope.row.rentFee)"
+                                @click="
+                                    addOrUpdateHandle(
+                                        scope.row.company,
+                                        scope.row.resourceId,
+                                        scope.row.block,
+                                        scope.row.name,
+                                        scope.row.contractId,
+                                        scope.row.rentFee
+                                    )
+                                "
                             >
                                 编辑合同
                             </el-button>
-                            <el-button type="text" @click="cancelContract(scope.row.resourceId)" :disabled="scope.row.state === 'empty'">撤销合同</el-button>
-                            
+                            <el-button type="text" :disabled="scope.row.state === 'empty'" @click="cancelContract(scope.row.resourceId)">撤销合同</el-button>
                         </template>
                     </el-table-column>
                 </JTable>

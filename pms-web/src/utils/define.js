@@ -1,4 +1,3 @@
-
 module.exports = {
-  REPORTURL: '/jmreport',
-}
+    REPORTURL: '/jmreport',
+};

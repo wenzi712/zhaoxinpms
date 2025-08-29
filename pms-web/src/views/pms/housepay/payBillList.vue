@@ -6,7 +6,7 @@
                 <el-button type="primary" icon="el-icon-plus" @click="openHistory()">历史信息</el-button>
             </div>
         </div>
-        <JTable v-loading="listLoading" :data="list" @selection-change="handleSelectionChange" :hasNO="false" :hasC="true" ref="showTable">
+        <JTable ref="showTable" v-loading="listLoading" :data="list" :has-n-o="false" :has-c="true" @selection-change="handleSelectionChange">
             <el-table-column prop="feeItemName" label="收费项名称" align="left"></el-table-column>
             <el-table-column prop="beginDate" label="起收日期" align="left" />
             <el-table-column prop="endDate" label="到期日期" align="left" />
@@ -85,7 +85,7 @@ export default {
                 });
             }
         },
-        updateParent(){
+        updateParent() {
             this.$parent.search();
         },
         handleSelectionChange(val) {

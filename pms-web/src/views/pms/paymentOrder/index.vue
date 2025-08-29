@@ -2,7 +2,7 @@
     <div class="Jcommon-layout">
         <div class="Jcommon-layout-center">
             <el-row class="Jcommon-search-box" :gutter="16">
-                <el-form :model="queryParams" ref="queryForm" v-show="showSearch">
+                <el-form v-show="showSearch" ref="queryForm" :model="queryParams">
                     <el-col :span="6">
                         <el-form-item label="支付方式" prop="wayCode">
                             <el-select v-model="queryParams.wayCode" placeholder="请选择" clearable>
@@ -63,7 +63,7 @@
             </el-row>
             <div class="Jcommon-layout-main Jflex-main">
                 <div class="Jcommon-head">
-                    <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+                    <right-toolbar :show-search.sync="showSearch" @queryTable="getList"></right-toolbar>
                 </div>
 
                 <JTable v-loading="loading" :data="paymentOrderList" @selection-change="handleSelectionChange">
@@ -88,7 +88,7 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['payment:paymentOrder:edit']">
+                            <el-button v-hasPermi="['payment:paymentOrder:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">
                                 修改
                             </el-button>
                         </template>

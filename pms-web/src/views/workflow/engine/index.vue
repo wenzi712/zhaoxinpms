@@ -17,20 +17,20 @@
                     <el-button size="small" class="publish-btn" @click="publish">提交</el-button>
                 </div>
             </header>
-            <section class="Jcommon-layout-main Jflex-main" v-if="mockData">
+            <section v-if="mockData" class="Jcommon-layout-main Jflex-main">
                 <BasicSetting
+                    v-show="activeStep === 'basicSetting'"
                     ref="basicSetting"
                     :conf="mockData.basicSetting"
-                    v-show="activeStep === 'basicSetting'"
-                    tabName="basicSetting"
+                    tab-name="basicSetting"
                     @initiatorChange="onInitiatorChange"
                 />
-                <DynamicForm ref="formDesign" :conf="mockData.formData" v-show="activeStep === 'formDesign'" tabName="formDesign" />
+                <DynamicForm v-show="activeStep === 'formDesign'" ref="formDesign" :conf="mockData.formData" tab-name="formDesign" />
                 <Process
+                    v-show="activeStep === 'processDesign'"
                     ref="processDesign"
                     :conf="mockData.processData"
-                    tabName="processDesign"
-                    v-show="activeStep === 'processDesign'"
+                    tab-name="processDesign"
                     @startNodeChange="onStartChange"
                 />
             </section>
@@ -42,7 +42,7 @@
 // @ is an alias to /src
 import Process from '@/components/workflow/Process';
 import BasicSetting from '@/components/workflow/BasicSetting';
-import DynamicForm from "@/views/tool/build";
+import DynamicForm from '@/views/tool/build';
 import request from '@/utils/request';
 const beforeUnload = function (e) {
     var confirmationMessage = '离开网站可能会丢失您编辑得内容';
@@ -52,6 +52,19 @@ const beforeUnload = function (e) {
 
 export default {
     name: 'Home',
+    components: {
+        Process,
+        BasicSetting,
+        DynamicForm,
+    },
+    beforeRouteEnter(to, from, next) {
+        window.addEventListener('beforeunload', beforeUnload);
+        next();
+    },
+    beforeRouteLeave(to, from, next) {
+        window.removeEventListener('beforeunload', beforeUnload);
+        next();
+    },
     props: {
         title: {
             type: String,
@@ -65,18 +78,10 @@ export default {
             activeStep: 'basicSetting', // 激活的步骤面板
             steps: [
                 { label: '基础设置', key: 'basicSetting' },
-                { label: "表单设计", key: "formDesign" },
+                { label: '表单设计', key: 'formDesign' },
                 { label: '流程设计', key: 'processDesign' },
             ],
         };
-    },
-    beforeRouteEnter(to, from, next) {
-        window.addEventListener('beforeunload', beforeUnload);
-        next();
-    },
-    beforeRouteLeave(to, from, next) {
-        window.removeEventListener('beforeunload', beforeUnload);
-        next();
     },
     computed: {
         translateX() {
@@ -193,11 +198,6 @@ export default {
             const basicSetting = this.$refs.basicSetting;
             basicSetting.formData.initiator = { 'dep&user': node.properties.initiator };
         },
-    },
-    components: {
-        Process,
-        BasicSetting,
-        DynamicForm,
     },
 };
 </script>

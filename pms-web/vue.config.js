@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
- // 引入eslint-webpack-plugin
-const ESLintPlugin = require('eslint-webpack-plugin');
+// 移除不必要的ESLint插件引入
+// const ESLintPlugin = require('eslint-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 function resolve(dir) {
@@ -63,16 +63,16 @@ module.exports = {
       }
     },
     plugins: [
-      new ESLintPlugin({
-        extensions: ['js', 'vue'],
-        exclude: 'node_modules'
-      })
+      new NodePolyfillPlugin(),
+      // 确保ESLint插件不会被重复添加
     ]
   },
   chainWebpack(config) {
-    config.plugins.delete('preload') // TODO: need test
-    config.plugins.delete('prefetch') // TODO: need test
-    config.module.rules.delete('eslint');
+    config.plugins.delete('preload')
+    config.plugins.delete('prefetch')
+    
+    // 不要删除eslint规则
+    // config.module.rules.delete('eslint');
 
     // set svg-sprite-loader
     config.module
@@ -127,14 +127,31 @@ module.exports = {
               }
             })
           config.optimization.runtimeChunk('single')
-          // 复制robots.txt到输出目录
-          config.plugin('copy').tap(args => {
-            args[0].push({
-              from: path.resolve(__dirname, './public/robots.txt'), //防爬虫文件
-              to: './' //到根目录下
-            })
-            return args
-          })
+          
+          // 重写copy插件配置，使用更稳健的方式
+          // 完全重写copy插件配置，避免args结构问题
+          try {
+            // 先删除现有的copy插件
+            config.plugins.delete('copy');
+            // 重新添加copy插件，直接配置规则
+            const CopyPlugin = require('copy-webpack-plugin');
+            config.plugin('copy').use(CopyPlugin, [{
+              patterns: [
+                {
+                  from: path.resolve(__dirname, 'public'),
+                  to: path.resolve(__dirname, 'dist'),
+                  toType: 'dir',
+                  globOptions: {
+                    dot: true,
+                    gitignore: true,
+                    ignore: ['**/.DS_Store', '**/index.html']
+                  }
+                }
+              ]
+            }]);
+          } catch (error) {
+            console.warn('Failed to configure copy plugin, using default configuration.');
+          }
         }
       )
   }

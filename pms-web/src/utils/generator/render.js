@@ -60,15 +60,15 @@ const componentChild = {
   },
   'el-checkbox-group': {
     options(h, conf, key) {
-      const list = []
+      const list = [];
       conf.options.forEach(item => {
         if (conf.optionType === 'button') {
-          list.push(<el-checkbox-button label={item.value}>{item.label}</el-checkbox-button>)
+          list.push(<el-checkbox-button label={item.value}>{item.label}</el-checkbox-button>);
         } else {
-          list.push(<el-checkbox label={item.value} border={conf.border}>{item.label}</el-checkbox>)
+          list.push(<el-checkbox label={item.value} border={conf.border}>{item.label}</el-checkbox>);
         }
-      })
-      return list
+      });
+      return list;
     }
   },
   'el-upload': {

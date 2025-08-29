@@ -5,7 +5,7 @@
             <el-step title="数据预览"></el-step>
             <el-step title="导入数据"></el-step>
         </el-steps>
-        <div class="import-main" v-show="active == 1">
+        <div v-show="active == 1" class="import-main">
             <div class="upload">
                 <div class="up_left">
                     <img src="@/assets/images/upload.png" />
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="import-main" v-show="active == 2">
+        <div v-show="active == 2" class="import-main">
             <JTable v-loading="listLoading" :data="list">
                 <el-table-column prop="area" label="商业区" width="150">
                     <template slot-scope="scope">
@@ -79,7 +79,7 @@
                 </el-table-column>
             </JTable>
         </div>
-        <div class="import-main" v-show="active == 3">
+        <div v-show="active == 3" class="import-main">
             <div class="success">
                 <img src="@/assets/images/success.png" alt="" />
                 <p class="success-title">批量导入成功</p>
@@ -87,10 +87,10 @@
             </div>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="cancle()" v-if="active == 1">取 消</el-button>
-            <el-button @click="prev" v-if="active == 2">上一步</el-button>
-            <el-button @click="next" type="primary" v-if="active < 3" :loading="btnLoading">下一步</el-button>
-            <el-button @click="cancle(true)" type="primary" v-else>关 闭</el-button>
+            <el-button v-if="active == 1" @click="cancle()">取 消</el-button>
+            <el-button v-if="active == 2" @click="prev">上一步</el-button>
+            <el-button v-if="active < 3" type="primary" :loading="btnLoading" @click="next">下一步</el-button>
+            <el-button v-else type="primary" @click="cancle(true)">关 闭</el-button>
         </span>
     </el-dialog>
 </template>
