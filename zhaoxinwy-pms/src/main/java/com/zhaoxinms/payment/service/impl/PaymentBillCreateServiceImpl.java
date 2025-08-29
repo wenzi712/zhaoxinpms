@@ -50,16 +50,13 @@ import com.zhaoxinms.util.FeeCalculationUtil;
 import com.zhaoxinms.util.ValidateUtil;
 
 @Service
-public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper, PaymentBillEntity>
-    implements PaymentBillCreateService {
+public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper, PaymentBillEntity> implements PaymentBillCreateService {
     @Autowired
-    public ConfigHouseService houseService;
+    private ConfigHouseService configHouseService;
     @Autowired
     private PaymentContractService paymentContractService;
     @Autowired
     private ConfigFeeItemService configFeeItemService;
-    @Autowired
-    private ConfigHouseService configHouseService;
     @Autowired
     private PaymentContractFeeService paymentContractFeeService;
     @Autowired
@@ -141,7 +138,8 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
         } else if (paymentBillBatchForm.getResourceName().contains(",")) {
             resourceNames = paymentBillBatchForm.getResourceName().split(",");
         } else {
-            resourceNames = paymentBillBatchForm.getResourceName().split(",");
+            // 对于没有分隔符的情况，直接将整个字符串作为一个元素
+            resourceNames = new String[] { paymentBillBatchForm.getResourceName() };
         }
 
         if (resourceNames.length == 0) {
@@ -208,12 +206,12 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
         List<PaymentContractFeeListVO> contractFees =
             paymentContractFeeService.getCanGenerateData(feeItemId, beginDate, endDate);
         if (contractFees.size() == 0) {
-            throw new DataException("在指定时间段内，没有待收费的“"+fee.getName()+"”");
+            throw new DataException("在指定时间段内，没有待收费的"+fee.getName()+"收费项目");
         }
 
         // 生成收费数据
-        List<PaymentBillEntity> bills = new ArrayList<PaymentBillEntity>();
-        List<PaymentContractFeeListVO> usedFee = new ArrayList<PaymentContractFeeListVO>();
+        List<PaymentBillEntity> bills = new ArrayList<>();
+        List<PaymentContractFeeListVO> usedFee = new ArrayList<>();
         for (PaymentContractFeeListVO contractFee : contractFees) {
             ConfigHouseEntity house = configHouseService.getById(contractFee.getResourceId());
 
@@ -233,8 +231,12 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
             bill.setBeginDate(contractFee.getNextBillDate());
             String billEndDate = DateUtils.getStepEndDate(bill.getBeginDate(), Integer.valueOf(fee.getPeriod()));
             String newNextBillDate = DateUtils.getStepMonth(bill.getBeginDate(), Integer.valueOf(fee.getPeriod()));
-            bill.setEndDate(DateUtils.parseDate(billEndDate, "yyyy-MM-dd"));
-            contractFee.setNextBillDate(DateUtils.parseDate(newNextBillDate, "yyyy-MM-dd"));
+            try {
+                bill.setEndDate(DateUtils.parseDate(billEndDate, "yyyy-MM-dd"));
+                contractFee.setNextBillDate(DateUtils.parseDate(newNextBillDate, "yyyy-MM-dd"));
+            } catch (ParseException e) {
+                throw new DataException("日期格式转换错误：" + e.getMessage());
+            }
             bill.setDeadline(new Date(paymentBillGenerateForm.getDeadline()));
             bill.setLastIndex("0");
             bill.setCurrentIndex("0");
@@ -266,17 +268,16 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
     }
 
     @Override
-    public List<PaymentBillEntity> getOrCreateMeterData(@Valid PaymentBillGenerateForm paymentBillGenerateForm,
-        boolean create) throws ParseException {
+    public List<PaymentBillEntity> getOrCreateMeterData(@Valid PaymentBillGenerateForm paymentBillGenerateForm, boolean create) throws ParseException {
         String feeItemId = paymentBillGenerateForm.getFeeItemId();
         Date beginDate = new Date(paymentBillGenerateForm.getBeginDate());
         Date endDate = new Date(paymentBillGenerateForm.getEndDate());
-
+    
         ConfigFeeItemEntity fee = configFeeItemService.getById(feeItemId);
         if (!fee.getNumType().equals(ConfigFeeItemServiceImpl.Number_METER)) {
             throw new DataException("该方法只能创建抄表类收费数据");
         }
-
+    
         // 通过收费项查询所有的抄表数据
         List<PaymentMeterEntity> meters = paymentMeterService.getByFeeId(feeItemId);
         if (meters.size() == 0) {
@@ -308,7 +309,11 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
                     bill.setPrice(fee.getPrice());
                     bill.setBeginDate(contractFee.getNextBillDate());
                     String billEndDate = DateUtils.getStepEndDate(bill.getBeginDate(), Integer.valueOf(fee.getPeriod()));
-                    bill.setEndDate(DateUtils.parseDate(billEndDate, "yyyy-MM-dd"));
+                    try {
+                        bill.setEndDate(DateUtils.parseDate(billEndDate, "yyyy-MM-dd"));
+                    } catch (ParseException e) {
+                        throw new DataException("日期格式转换错误：" + e.getMessage());
+                    }
                     bill.setDeadline(new Date(paymentBillGenerateForm.getDeadline()));
                     bill.setLastIndex(meter.getLastIndex());
                     bill.setCurrentIndex(meter.getCurrentIndex());
@@ -333,15 +338,19 @@ public class PaymentBillCreateServiceImpl extends ServiceImpl<PaymentBillMapper,
             }
             for (PaymentContractFeeListVO contractFee : usedFee) {
                 int times = contractFee.getTimes() + 1;
-                String newNextBillDate = DateUtils.getStepMonth(contractFee.getBeginDate(), times*Integer.valueOf(fee.getPeriod()));
-                LambdaUpdateWrapper<PaymentContractFeeEntity> update =
-                    new LambdaUpdateWrapper<PaymentContractFeeEntity>();
-                update.eq(PaymentContractFeeEntity::getId, contractFee.getId())
-                    .set(PaymentContractFeeEntity::getNextBillDate, newNextBillDate)
-                    .set(PaymentContractFeeEntity::getTimes, times);
-                Integer rows = paymentContractFeeService.getBaseMapper().update(null, update);
-                if (rows != 1) {
-                    throw new DataException("更新数据出错");
+                String newNextBillDateStr = DateUtils.getStepMonth(contractFee.getBeginDate(), times * Integer.valueOf(fee.getPeriod()));
+                try {
+                    Date newNextBillDate = DateUtils.parseDate(newNextBillDateStr, "yyyy-MM-dd");
+                    LambdaUpdateWrapper<PaymentContractFeeEntity> update = new LambdaUpdateWrapper<>();
+                    update.eq(PaymentContractFeeEntity::getId, contractFee.getId())
+                          .set(PaymentContractFeeEntity::getNextBillDate, newNextBillDate)
+                          .set(PaymentContractFeeEntity::getTimes, times);
+                    Integer rows = paymentContractFeeService.getBaseMapper().update(null, update);
+                    if (rows != 1) {
+                        throw new DataException("更新数据出错");
+                    }
+                } catch (ParseException e) {
+                    throw new DataException("日期格式转换错误：" + e.getMessage());
                 }
             }
         }
