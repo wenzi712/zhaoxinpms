@@ -129,8 +129,7 @@ http://zhaoxinms.com:81/#/manual/demoData
 ### 后端运行
 
 ```
-1、导入到Eclipse，菜单 File -> Import，然后选择 Maven -> Existing Maven Projects，点击 Next> 按钮，选择工作目录，然后点击 Finish 按钮，即可成功导入。
-Eclipse会自动加载Maven依赖包，初次加载会比较慢（根据自身网络情况而定）
+1、导入到IDE。
 2、创建数据库pms并导入数据脚本pmsxxxx.sql  workflow_view.sql
 3、打开项目运行com.ruoyi.ZhaoXinWY.java
 ```
